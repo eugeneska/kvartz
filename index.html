@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Кварцевые столешницы</title>
+    <link rel="preload" as="image" href="assets/images/hero/back1.webp" fetchpriority="high" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -12,47 +13,27 @@
 
       <a class="side-menu__link" href="#request-calc" aria-label="Узнать цену">
         <span class="side-menu__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M4 13c0-3.3 2.7-6 6-6 1.6 0 3.1.6 4.2 1.8A6 6 0 1 1 9.8 19H8a4 4 0 0 1-4-4v-2Z" />
-            <path d="M16 13h4" />
-            <path d="M18 11v4" />
-          </svg>
+          <img src="assets/icons/price.svg" alt="" loading="lazy" />
         </span>
       </a>
       <a class="side-menu__link" href="#colors" aria-label="Цвета">
         <span class="side-menu__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <circle cx="8" cy="8" r="5" />
-            <circle cx="16" cy="8" r="5" />
-            <circle cx="12" cy="15.5" r="5" />
-          </svg>
+          <img src="assets/icons/colors.svg" alt="" loading="lazy" />
         </span>
       </a>
       <a class="side-menu__link" href="#production" aria-label="Производство">
         <span class="side-menu__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z" />
-            <circle cx="12" cy="10" r="2.4" />
-          </svg>
+          <img src="assets/icons/proizv.svg" alt="" loading="lazy" />
         </span>
       </a>
       <a class="side-menu__link" href="#certificates" aria-label="Сертификаты">
         <span class="side-menu__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M7 3h8l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
-            <path d="M15 3v4h4" />
-            <path d="M12 10v7" />
-            <path d="M9 14l3 3 3-3" />
-          </svg>
+          <img src="assets/icons/doc.svg" alt="" loading="lazy" />
         </span>
       </a>
       <a class="side-menu__link" href="#contacts" aria-label="Контакты">
         <span class="side-menu__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M5 7a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4h-3.5L7 19v-4H9a4 4 0 0 1-4-4V7Z" />
-            <path d="M9 9h6" />
-            <path d="M9 12h4" />
-          </svg>
+          <img src="assets/icons/contact.svg" alt="" loading="lazy" />
         </span>
       </a>
       <a class="side-menu__link" href="#hero" aria-label="Наверх">
@@ -73,7 +54,7 @@
         <div class="hero__top">
           <div class="logo-block">
             <a class="logo-card" href="#hero" aria-label="На главную">
-              <img src="assets/icons/logo.png" alt="Логотип" />
+              <img src="assets/icons/logo.webp" alt="Логотип" decoding="async" />
             </a>
             <div class="logo-tag">
               <span>Кварцевые поверхности</span>
@@ -229,48 +210,7 @@
           </div>
 
           <h3 class="colors-popular-title">Самые популярные цвета</h3>
-          <div class="colors-grid" id="colorsGrid">
-            <button class="color-card" type="button" data-color-name="Белый" data-color-image="colors/white.jpg">
-              <img src="colors/thumbs/white.jpg" alt="Белый" loading="lazy" />
-              <span class="color-card__name">Белый</span>
-            </button>
-            <button class="color-card" type="button" data-color-name="Серый" data-color-image="colors/gray.jpg">
-              <img src="colors/thumbs/gray.jpg" alt="Серый" loading="lazy" />
-              <span class="color-card__name">Серый</span>
-            </button>
-            <button class="color-card" type="button" data-color-name="Бело-серый" data-color-image="colors/whitegray.jpg">
-              <img src="colors/thumbs/whitegray.jpg" alt="Бело-серый" loading="lazy" />
-              <span class="color-card__name">Бело-серый</span>
-            </button>
-            <button class="color-card" type="button" data-color-name="Черный" data-color-image="colors/black.jpg">
-              <img src="colors/thumbs/black.jpg" alt="Черный" loading="lazy" />
-              <span class="color-card__name">Черный</span>
-            </button>
-            <button class="color-card" type="button" data-color-name="Молочно-белый" data-color-image="colors/whitetoo.jpg">
-              <img src="colors/thumbs/whitetoo.jpg" alt="Молочно-белый" loading="lazy" />
-              <span class="color-card__name">Молочно-белый</span>
-            </button>
-            <button class="color-card" type="button" data-color-name="Песочный" data-color-image="colors/sand.jpg">
-              <img src="colors/thumbs/sand.jpg" alt="Песочный" loading="lazy" />
-              <span class="color-card__name">Песочный</span>
-            </button>
-            <button class="color-card" type="button" data-color-name="Оранжево-коричневый" data-color-image="colors/orangebrown.jpg">
-              <img src="colors/thumbs/orangebrown.jpg" alt="Оранжево-коричневый" loading="lazy" />
-              <span class="color-card__name">Оранжево-коричневый</span>
-            </button>
-            <button class="color-card" type="button" data-color-name="Светло-серый" data-color-image="colors/grayyy.jpg">
-              <img src="colors/thumbs/grayyy.jpg" alt="Светло-серый" loading="lazy" />
-              <span class="color-card__name">Светло-серый</span>
-            </button>
-            <button class="color-card" type="button" data-color-name="Песочно-коричневый" data-color-image="colors/sandbrown.jpg">
-              <img src="colors/thumbs/sandbrown.jpg" alt="Песочно-коричневый" loading="lazy" />
-              <span class="color-card__name">Песочно-коричневый</span>
-            </button>
-            <button class="color-card" type="button" data-color-name="Синий" data-color-image="colors/blue.jpg">
-              <img src="colors/thumbs/blue.jpg" alt="Синий" loading="lazy" />
-              <span class="color-card__name">Синий</span>
-            </button>
-          </div>
+          <div class="colors-grid" id="colorsGrid"></div>
         </div>
       </section>
 
@@ -336,9 +276,9 @@
           </div>
 
           <div class="production-gallery" aria-label="Фотографии станков">
-            <img src="assets/images/production/proizv1.jpg" alt="Станок на производстве 1" loading="lazy" />
-            <img src="assets/images/production/proizv2.jpg" alt="Станок на производстве 2" loading="lazy" />
-            <img src="assets/images/production/proizv3.jpg" alt="Станок на производстве 3" loading="lazy" />
+            <img src="assets/images/production/proizv1.webp" alt="Станок на производстве 1" loading="lazy" decoding="async" />
+            <img src="assets/images/production/proizv2.webp" alt="Станок на производстве 2" loading="lazy" decoding="async" />
+            <img src="assets/images/production/proizv3.webp" alt="Станок на производстве 3" loading="lazy" decoding="async" />
           </div>
         </div>
       </section>
@@ -351,27 +291,27 @@
           <div class="projects-slider">
             <div class="projects-track" id="projectsTrack" aria-label="Слайдер интерьеров">
               <button class="project-card" type="button" data-project-id="project-1">
-                <img class="project-card__preview" src="assets/images/projects/1.jpg" alt="Интерьер Светлая кухня, превью" loading="lazy" />
+                <img class="project-card__preview" src="assets/images/projects/1.webp" alt="Интерьер Светлая кухня, превью" loading="lazy" decoding="async" />
                 <span class="project-card__title">Светлая кухня</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-2">
-                <img class="project-card__preview" src="assets/images/projects/2.jpg" alt="Интерьер Гостиная-столовая, превью" loading="lazy" />
+                <img class="project-card__preview" src="assets/images/projects/2.webp" alt="Интерьер Гостиная-столовая, превью" loading="lazy" decoding="async" />
                 <span class="project-card__title">Гостиная-столовая</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-3">
-                <img class="project-card__preview" src="assets/images/projects/3.jpg" alt="Интерьер Ванная комната, превью" loading="lazy" />
+                <img class="project-card__preview" src="assets/images/projects/3.webp" alt="Интерьер Ванная комната, превью" loading="lazy" decoding="async" />
                 <span class="project-card__title">Ванная комната</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-4">
-                <img class="project-card__preview" src="assets/images/projects/4.jpg" alt="Интерьер Классическая кухня, превью" loading="lazy" />
+                <img class="project-card__preview" src="assets/images/projects/4.webp" alt="Интерьер Классическая кухня, превью" loading="lazy" decoding="async" />
                 <span class="project-card__title">Классическая кухня</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-5">
-                <img class="project-card__preview" src="assets/images/projects/5.1.jpg" alt="Интерьер Кухня в темных тонах, превью" loading="lazy" />
+                <img class="project-card__preview" src="assets/images/projects/5.1.webp" alt="Интерьер Кухня в темных тонах, превью" loading="lazy" decoding="async" />
                 <span class="project-card__title">Кухня в темных тонах</span>
               </button>
             </div>

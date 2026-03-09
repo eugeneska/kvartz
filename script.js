@@ -1,30 +1,30 @@
 const slides = [
   {
-    image: "assets/images/hero/back1.jpeg",
+    image: "assets/images/hero/back1.webp",
     text: "Скидка 25% всем новоселам!",
     actionText: "Узнать подробности",
     href: "#promo",
   },
   {
-    image: "assets/images/hero/back2.jpeg",
+    image: "assets/images/hero/back2.webp",
     text: "Более 700 цветов в наличии! Привезем образцы цветов к Вам!",
     actionText: "Заказать доставку образцов",
     href: "#colors",
   },
   {
-    image: "assets/images/hero/back3.jpeg",
+    image: "assets/images/hero/back3.webp",
     text: "Узнайте стоимость своей столешницы прямо сейчас!",
     actionText: "Оставить заявку",
     href: "#request-calc",
   },
   {
-    image: "assets/images/hero/back4.png",
+    image: "assets/images/hero/back4.webp",
     text: "Самое большое и новое производство!",
     actionText: "Узнать больше",
     href: "#production",
   },
   {
-    image: "assets/images/hero/back5.png",
+    image: "assets/images/hero/back5.webp",
     text: "Персональный менеджер и сопровождение на всех этапах заказа!",
     actionText: "Узнать больше",
     href: "#order-steps",
@@ -89,12 +89,12 @@ const projectsCatalog = {
     description:
       "Минималистичный интерьер со светлой кварцевой поверхностью, где важны чистые линии, тактильность и легкость ухода.",
     images: [
-      "assets/images/projects/1.jpg",
-      "assets/images/projects/1.1.jpg",
-      "assets/images/projects/1.2.jpg",
-      "assets/images/projects/1.3.jpg",
-      "assets/images/projects/1.4.jpg",
-      "assets/images/projects/1.5.jpg",
+      "assets/images/projects/1.webp",
+      "assets/images/projects/1.1.webp",
+      "assets/images/projects/1.2.webp",
+      "assets/images/projects/1.3.webp",
+      "assets/images/projects/1.4.webp",
+      "assets/images/projects/1.5.webp",
     ],
   },
   "project-2": {
@@ -102,12 +102,12 @@ const projectsCatalog = {
     description:
       "Пространство с акцентной рабочей зоной и выразительным рисунком камня, рассчитанное на ежедневные активные сценарии.",
     images: [
-      "assets/images/projects/2.jpg",
-      "assets/images/projects/2.1.jpg",
-      "assets/images/projects/2.2.jpg",
-      "assets/images/projects/2.3.jpg",
-      "assets/images/projects/2.4.jpg",
-      "assets/images/projects/2.5.jpg",
+      "assets/images/projects/2.webp",
+      "assets/images/projects/2.1.webp",
+      "assets/images/projects/2.2.webp",
+      "assets/images/projects/2.3.webp",
+      "assets/images/projects/2.4.webp",
+      "assets/images/projects/2.5.webp",
     ],
   },
   "project-3": {
@@ -115,10 +115,10 @@ const projectsCatalog = {
     description:
       "Компактная композиция с цельной столешницей и интегрированной геометрией, устойчивой к влаге и бытовым нагрузкам.",
     images: [
-      "assets/images/projects/3.jpg",
-      "assets/images/projects/3.1.jpg",
-      "assets/images/projects/3.2.jpg",
-      "assets/images/projects/3.3.jpg",
+      "assets/images/projects/3.webp",
+      "assets/images/projects/3.1.webp",
+      "assets/images/projects/3.2.webp",
+      "assets/images/projects/3.3.webp",
     ],
   },
   "project-4": {
@@ -126,14 +126,14 @@ const projectsCatalog = {
     description:
       "Теплая классика с декоративными фасадами и долговечной рабочей поверхностью, которая сохраняет аккуратный вид годами.",
     images: [
-      "assets/images/projects/4.jpg",
-      "assets/images/projects/4.1.jpg",
-      "assets/images/projects/4.2.jpg",
-      "assets/images/projects/4.3.jpg",
-      "assets/images/projects/4.4.jpg",
-      "assets/images/projects/4.5.jpg",
-      "assets/images/projects/4.6.jpg",
-      "assets/images/projects/4.7.jpg",
+      "assets/images/projects/4.webp",
+      "assets/images/projects/4.1.webp",
+      "assets/images/projects/4.2.webp",
+      "assets/images/projects/4.3.webp",
+      "assets/images/projects/4.4.webp",
+      "assets/images/projects/4.5.webp",
+      "assets/images/projects/4.6.webp",
+      "assets/images/projects/4.7.webp",
     ],
   },
   "project-5": {
@@ -141,12 +141,12 @@ const projectsCatalog = {
     description:
       "Контрастное решение с выразительной текстурой и практичной эргономикой, созданное для современного ритма жизни.",
     images: [
-      "assets/images/projects/5.1.jpg",
-      "assets/images/projects/5.2.jpg",
-      "assets/images/projects/5.3.jpg",
-      "assets/images/projects/5.4.jpg",
-      "assets/images/projects/5.5.jpg",
-      "assets/images/projects/5.6.jpg",
+      "assets/images/projects/5.1.webp",
+      "assets/images/projects/5.2.webp",
+      "assets/images/projects/5.3.webp",
+      "assets/images/projects/5.4.webp",
+      "assets/images/projects/5.5.webp",
+      "assets/images/projects/5.6.webp",
     ],
   },
 };
@@ -280,10 +280,9 @@ function renderColorsGallery() {
 
   colorsGrid.innerHTML = colorsCatalog
     .map(({ id, name }) => {
-      const noTextExtension = id === "016" ? "jpeg" : "png";
       return `
-        <button class="color-card" type="button" data-color-name="${name}" data-color-image="assets/images/colors/with-text/Color-${id}.jpg">
-          <img src="assets/images/colors/no-text/Color-${id}.${noTextExtension}" alt="${name}" loading="lazy" />
+        <button class="color-card" type="button" data-color-name="${name}" data-color-image="assets/images/colors/with-text/Color-${id}.webp">
+          <img src="assets/images/colors/no-text/Color-${id}.webp" alt="${name}" loading="lazy" decoding="async" />
           <span class="color-card__name">${name}</span>
         </button>
       `;
