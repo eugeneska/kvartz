@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Кварцевые столешницы</title>
     <link rel="preload" as="image" href="assets/images/hero/back1.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="assets/icons/logo.webp" fetchpriority="high" />
+    <link
+      rel="preload"
+      href="Lato2OFLWeb/Lato/fonts/Lato-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -54,7 +62,7 @@
         <div class="hero__top">
           <div class="logo-block">
             <a class="logo-card" href="#hero" aria-label="На главную">
-              <img src="assets/icons/logo.webp" alt="Логотип" decoding="async" />
+              <img src="assets/icons/logo.webp" alt="Логотип" decoding="async" fetchpriority="high" />
             </a>
             <div class="logo-tag">
               <span>Кварцевые поверхности</span>
@@ -276,9 +284,9 @@
           </div>
 
           <div class="production-gallery" aria-label="Фотографии станков">
-            <img src="assets/images/production/proizv1.webp" alt="Станок на производстве 1" loading="lazy" decoding="async" />
-            <img src="assets/images/production/proizv2.webp" alt="Станок на производстве 2" loading="lazy" decoding="async" />
-            <img src="assets/images/production/proizv3.webp" alt="Станок на производстве 3" loading="lazy" decoding="async" />
+            <img src="assets/images/production/proizv1.webp" alt="Станок на производстве 1" loading="lazy" decoding="async" fetchpriority="low" />
+            <img src="assets/images/production/proizv2.webp" alt="Станок на производстве 2" loading="lazy" decoding="async" fetchpriority="low" />
+            <img src="assets/images/production/proizv3.webp" alt="Станок на производстве 3" loading="lazy" decoding="async" fetchpriority="low" />
           </div>
         </div>
       </section>
@@ -291,27 +299,27 @@
           <div class="projects-slider">
             <div class="projects-track" id="projectsTrack" aria-label="Слайдер интерьеров">
               <button class="project-card" type="button" data-project-id="project-1">
-                <img class="project-card__preview" src="assets/images/projects/1.webp" alt="Интерьер Светлая кухня, превью" loading="lazy" decoding="async" />
+                <img class="project-card__preview" src="assets/images/projects/1.webp" alt="Интерьер Светлая кухня, превью" loading="lazy" decoding="async" fetchpriority="low" />
                 <span class="project-card__title">Светлая кухня</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-2">
-                <img class="project-card__preview" src="assets/images/projects/2.webp" alt="Интерьер Гостиная-столовая, превью" loading="lazy" decoding="async" />
+                <img class="project-card__preview" src="assets/images/projects/2.webp" alt="Интерьер Гостиная-столовая, превью" loading="lazy" decoding="async" fetchpriority="low" />
                 <span class="project-card__title">Гостиная-столовая</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-3">
-                <img class="project-card__preview" src="assets/images/projects/3.webp" alt="Интерьер Ванная комната, превью" loading="lazy" decoding="async" />
+                <img class="project-card__preview" src="assets/images/projects/3.webp" alt="Интерьер Ванная комната, превью" loading="lazy" decoding="async" fetchpriority="low" />
                 <span class="project-card__title">Ванная комната</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-4">
-                <img class="project-card__preview" src="assets/images/projects/4.webp" alt="Интерьер Классическая кухня, превью" loading="lazy" decoding="async" />
+                <img class="project-card__preview" src="assets/images/projects/4.webp" alt="Интерьер Классическая кухня, превью" loading="lazy" decoding="async" fetchpriority="low" />
                 <span class="project-card__title">Классическая кухня</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-5">
-                <img class="project-card__preview" src="assets/images/projects/5.1.webp" alt="Интерьер Кухня в темных тонах, превью" loading="lazy" decoding="async" />
+                <img class="project-card__preview" src="assets/images/projects/5.1.webp" alt="Интерьер Кухня в темных тонах, превью" loading="lazy" decoding="async" fetchpriority="low" />
                 <span class="project-card__title">Кухня в темных тонах</span>
               </button>
             </div>

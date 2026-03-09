@@ -282,7 +282,7 @@ function renderColorsGallery() {
     .map(({ id, name }) => {
       return `
         <button class="color-card" type="button" data-color-name="${name}" data-color-image="assets/images/colors/with-text/Color-${id}.webp">
-          <img src="assets/images/colors/no-text/Color-${id}.webp" alt="${name}" loading="lazy" decoding="async" />
+          <img src="assets/images/colors/no-text/Color-${id}.webp" alt="${name}" loading="lazy" decoding="async" fetchpriority="low" />
           <span class="color-card__name">${name}</span>
         </button>
       `;
