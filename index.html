@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Кварцевые столешницы</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <aside class="side-menu" aria-label="Навигация по лендингу">
+      <div class="side-menu__head">МЕНЮ</div>
+
+      <a class="side-menu__link" href="#request-calc" aria-label="Узнать цену">
+        <span class="side-menu__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 13c0-3.3 2.7-6 6-6 1.6 0 3.1.6 4.2 1.8A6 6 0 1 1 9.8 19H8a4 4 0 0 1-4-4v-2Z" />
+            <path d="M16 13h4" />
+            <path d="M18 11v4" />
+          </svg>
+        </span>
+      </a>
+      <a class="side-menu__link" href="#colors" aria-label="Цвета">
+        <span class="side-menu__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <circle cx="8" cy="8" r="5" />
+            <circle cx="16" cy="8" r="5" />
+            <circle cx="12" cy="15.5" r="5" />
+          </svg>
+        </span>
+      </a>
+      <a class="side-menu__link" href="#production" aria-label="Производство">
+        <span class="side-menu__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z" />
+            <circle cx="12" cy="10" r="2.4" />
+          </svg>
+        </span>
+      </a>
+      <a class="side-menu__link" href="#certificates" aria-label="Сертификаты">
+        <span class="side-menu__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M7 3h8l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
+            <path d="M15 3v4h4" />
+            <path d="M12 10v7" />
+            <path d="M9 14l3 3 3-3" />
+          </svg>
+        </span>
+      </a>
+      <a class="side-menu__link" href="#contacts" aria-label="Контакты">
+        <span class="side-menu__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 7a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4h-3.5L7 19v-4H9a4 4 0 0 1-4-4V7Z" />
+            <path d="M9 9h6" />
+            <path d="M9 12h4" />
+          </svg>
+        </span>
+      </a>
+      <a class="side-menu__link" href="#hero" aria-label="Наверх">
+        <span class="side-menu__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 20V5" />
+            <path d="M5 12l7-7 7 7" />
+          </svg>
+        </span>
+      </a>
+    </aside>
+
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero__bg" aria-hidden="true"></div>
+        <div class="hero__overlay" aria-hidden="true"></div>
+
+        <div class="hero__top">
+          <div class="logo-block">
+            <a class="logo-card" href="#hero" aria-label="На главную">
+              <img src="assets/icons/logo.png" alt="Логотип" />
+            </a>
+            <div class="logo-tag">
+              <span>Кварцевые поверхности</span>
+            </div>
+          </div>
+
+          <div class="hero__title-group">
+            <h1>Столешницы из кварца</h1>
+            <div class="hero__contacts">
+              <a class="phone-link" href="tel:+74957245256 ">+74957245256</a>
+              <div class="messengers">
+                <a
+                  class="messenger-btn"
+                  href="https://t.me"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Написать в Telegram"
+                >
+                  <img src="assets/icons/tgh.svg" alt="Telegram" />
+                </a>
+                <a
+                  class="messenger-btn"
+                  href="https://max.ru"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Написать в Max"
+                >
+                  <img src="assets/icons/maxh.svg" alt="Max" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <a class="express-btn" href="#express-calc">
+            <span class="express-btn__label">Экспресс расчет</span>
+            <span class="express-btn__arrow" aria-hidden="true">
+              <svg class="express-btn__arrow-icon" viewBox="0 0 24 24">
+                <path d="M4 12h14" />
+                <path d="M13 7l6 5-6 5" />
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <div class="hero__bottom">
+          <p class="hero__slide-text" id="slideText"></p>
+          <a class="hero__slide-link" id="slideAction" href="#">
+            <span id="slideActionText"></span>
+            <svg class="express-btn__arrow-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12h14" />
+              <path d="M13 7l6 5-6 5" />
+            </svg>
+          </a>
+        </div>
+
+        <a class="hero__scroll-cue" href="#express-calc" aria-label="Прокрутить к блоку Экспресс расчет">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 5v14" />
+            <path d="M6.5 13.5 12 19l5.5-5.5" />
+          </svg>
+        </a>
+      </section>
+
+      <section class="express-calc-section" id="express-calc">
+        <div class="express-calc-section__inner">
+          <h2>Экспресс расчет!</h2>
+          <p class="express-calc-section__desc">
+            В рабочие часы мы сделаем расчет Вашего проекта в течение нескольких минут.
+          </p>
+
+          <form class="express-calc-form" action="#" method="post">
+            <label class="express-calc-form__field" for="expressPhone">
+              <img class="express-calc-form__icon" src="assets/icons/phone.svg" alt="" aria-hidden="true" />
+              <input
+                id="expressPhone"
+                name="phone"
+                type="tel"
+                placeholder="+7 (___) ___-__-__"
+                autocomplete="tel"
+              />
+            </label>
+
+            <button class="express-calc-form__submit" type="submit">Отправить заявку</button>
+
+            <label class="express-calc-form__policy">
+              <input type="checkbox" checked />
+              <span>
+                Согласен на обработку персональных данных, принимаю условия Пользовательского
+                соглашения
+              </span>
+            </label>
+          </form>
+
+          <p class="express-calc-section__contact">
+            Или свяжитесь с нами по телефону
+            <a href="tel:+74957245256">+74957245256</a>
+            <span class="express-calc-section__messengers">
+              <a
+                href="https://t.me"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Написать в Telegram"
+              >
+                <img src="assets/icons/tg.svg" alt="Telegram" />
+              </a>
+              <a
+                href="https://max.ru"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Написать в Max"
+              >
+                <img src="assets/icons/maxs.svg" alt="Max" />
+              </a>
+            </span>
+          </p>
+        </div>
+      </section>
+
+      <section class="colors-section" id="colors">
+        <div class="colors-section__inner">
+          <h2>Цвета</h2>
+          <p class="colors-section__desc">
+            Более всегда 700 цветов в наличии!
+            <br />
+            Мы привезем образцы всех цветов к Вам на адрес по Москве или Московской области.
+          </p>
+
+          <div class="colors-request">
+            <h3>Заказать доставку образцов:</h3>
+            <p class="request-required-note">* Обязательное поле</p>
+            <form class="colors-request-form" id="colorsRequestForm" action="#" method="post">
+              <label class="request-field request-field--full">
+                <span class="request-field__required" aria-hidden="true">*</span>
+                <input type="text" name="name" placeholder="Имя" autocomplete="name" required />
+              </label>
+              <label class="request-field">
+                <span class="request-field__required" aria-hidden="true">*</span>
+                <input
+                  type="text"
+                  name="address"
+                  placeholder="Адрес"
+                  autocomplete="street-address"
+                  required
+                />
+              </label>
+              <label class="request-field">
+                <span class="request-field__required" aria-hidden="true">*</span>
+                <input type="tel" name="phone" placeholder="Телефон" autocomplete="tel" required />
+              </label>
+              <button type="submit">Отправить заявку</button>
+            </form>
+            <p class="colors-request__notice" id="colorsRequestNotice" role="status" aria-live="polite"></p>
+          </div>
+
+          <h3 class="colors-popular-title">Самые популярные цвета</h3>
+          <div class="colors-grid" id="colorsGrid">
+            <button class="color-card" type="button" data-color-name="Белый" data-color-image="colors/white.jpg">
+              <img src="colors/thumbs/white.jpg" alt="Белый" loading="lazy" />
+              <span class="color-card__name">Белый</span>
+            </button>
+            <button class="color-card" type="button" data-color-name="Серый" data-color-image="colors/gray.jpg">
+              <img src="colors/thumbs/gray.jpg" alt="Серый" loading="lazy" />
+              <span class="color-card__name">Серый</span>
+            </button>
+            <button class="color-card" type="button" data-color-name="Бело-серый" data-color-image="colors/whitegray.jpg">
+              <img src="colors/thumbs/whitegray.jpg" alt="Бело-серый" loading="lazy" />
+              <span class="color-card__name">Бело-серый</span>
+            </button>
+            <button class="color-card" type="button" data-color-name="Черный" data-color-image="colors/black.jpg">
+              <img src="colors/thumbs/black.jpg" alt="Черный" loading="lazy" />
+              <span class="color-card__name">Черный</span>
+            </button>
+            <button class="color-card" type="button" data-color-name="Молочно-белый" data-color-image="colors/whitetoo.jpg">
+              <img src="colors/thumbs/whitetoo.jpg" alt="Молочно-белый" loading="lazy" />
+              <span class="color-card__name">Молочно-белый</span>
+            </button>
+            <button class="color-card" type="button" data-color-name="Песочный" data-color-image="colors/sand.jpg">
+              <img src="colors/thumbs/sand.jpg" alt="Песочный" loading="lazy" />
+              <span class="color-card__name">Песочный</span>
+            </button>
+            <button class="color-card" type="button" data-color-name="Оранжево-коричневый" data-color-image="colors/orangebrown.jpg">
+              <img src="colors/thumbs/orangebrown.jpg" alt="Оранжево-коричневый" loading="lazy" />
+              <span class="color-card__name">Оранжево-коричневый</span>
+            </button>
+            <button class="color-card" type="button" data-color-name="Светло-серый" data-color-image="colors/grayyy.jpg">
+              <img src="colors/thumbs/grayyy.jpg" alt="Светло-серый" loading="lazy" />
+              <span class="color-card__name">Светло-серый</span>
+            </button>
+            <button class="color-card" type="button" data-color-name="Песочно-коричневый" data-color-image="colors/sandbrown.jpg">
+              <img src="colors/thumbs/sandbrown.jpg" alt="Песочно-коричневый" loading="lazy" />
+              <span class="color-card__name">Песочно-коричневый</span>
+            </button>
+            <button class="color-card" type="button" data-color-name="Синий" data-color-image="colors/blue.jpg">
+              <img src="colors/thumbs/blue.jpg" alt="Синий" loading="lazy" />
+              <span class="color-card__name">Синий</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="promo-section" id="promo">
+        <div class="promo-section__inner">
+          <h2>Акция</h2>
+
+          <div class="promo-banner">Акция! Скидка 25% всем новоселам!</div>
+
+          <div class="promo-request">
+            <h3>Рассчитать столешницу по акции!</h3>
+            <p class="request-required-note">* Обязательное поле</p>
+            <form class="promo-request-form" id="promoRequestForm" action="#" method="post">
+              <label class="request-field">
+                <span class="request-field__required" aria-hidden="true">*</span>
+                <input type="text" name="name" placeholder="Имя" autocomplete="name" required />
+              </label>
+              <label class="request-field">
+                <span class="request-field__required" aria-hidden="true">*</span>
+                <input type="tel" name="phone" placeholder="Телефон" autocomplete="tel" required />
+              </label>
+              <button type="submit">Отправить</button>
+            </form>
+            <p class="promo-request__notice" id="promoRequestNotice" role="status" aria-live="polite"></p>
+          </div>
+
+          <p class="promo-section__contact">
+            Или свяжитесь с нами и зафиксируйте условия акции:
+            <a href="tel:+74957245256">+74957245256</a>
+            <span class="promo-section__messengers">
+              <a
+                href="https://t.me"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Написать в Telegram"
+              >
+                <img src="assets/icons/tg.svg" alt="Telegram" />
+              </a>
+              <a
+                href="https://max.ru"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Написать в Max"
+              >
+                <img src="assets/icons/maxs.svg" alt="Max" />
+              </a>
+            </span>
+          </p>
+        </div>
+      </section>
+
+      <section class="production-section" id="production">
+        <div class="production-section__inner">
+          <h2>Производство</h2>
+          <p class="production-section__desc">
+            На каждом этапе мы контролируем точность размеров и качество обработки, чтобы изделие
+            идеально встало в Ваш интерьер. Современное оборудование позволяет выполнять сложные проекты быстро и с аккуратной
+            геометрией.
+          </p>
+
+          <div class="production-video-placeholder" aria-label="Блок под видео производства">
+            Здесь будет видео
+          </div>
+
+          <div class="production-gallery" aria-label="Фотографии станков">
+            <img src="assets/images/production/proizv1.jpg" alt="Станок на производстве 1" loading="lazy" />
+            <img src="assets/images/production/proizv2.jpg" alt="Станок на производстве 2" loading="lazy" />
+            <img src="assets/images/production/proizv3.jpg" alt="Станок на производстве 3" loading="lazy" />
+          </div>
+        </div>
+      </section>
+
+      <section class="projects-section" id="projects">
+        <div class="projects-section__inner">
+          <h2>Галерея работ</h2>
+          <p class="projects-section__desc">Каждый проект создаем под стиль интерьера и образ жизни владельцев.</p>
+
+          <div class="projects-slider">
+            <div class="projects-track" id="projectsTrack" aria-label="Слайдер интерьеров">
+              <button class="project-card" type="button" data-project-id="project-1">
+                <img class="project-card__preview" src="assets/images/projects/1.jpg" alt="Интерьер Светлая кухня, превью" loading="lazy" />
+                <span class="project-card__title">Светлая кухня</span>
+              </button>
+
+              <button class="project-card" type="button" data-project-id="project-2">
+                <img class="project-card__preview" src="assets/images/projects/2.jpg" alt="Интерьер Гостиная-столовая, превью" loading="lazy" />
+                <span class="project-card__title">Гостиная-столовая</span>
+              </button>
+
+              <button class="project-card" type="button" data-project-id="project-3">
+                <img class="project-card__preview" src="assets/images/projects/3.jpg" alt="Интерьер Ванная комната, превью" loading="lazy" />
+                <span class="project-card__title">Ванная комната</span>
+              </button>
+
+              <button class="project-card" type="button" data-project-id="project-4">
+                <img class="project-card__preview" src="assets/images/projects/4.jpg" alt="Интерьер Классическая кухня, превью" loading="lazy" />
+                <span class="project-card__title">Классическая кухня</span>
+              </button>
+
+              <button class="project-card" type="button" data-project-id="project-5">
+                <img class="project-card__preview" src="assets/images/projects/5.1.jpg" alt="Интерьер Кухня в темных тонах, превью" loading="lazy" />
+                <span class="project-card__title">Кухня в темных тонах</span>
+              </button>
+            </div>
+
+            <div class="projects-slider__controls" aria-label="Навигация по интерьерам">
+              <button class="projects-slider__nav projects-slider__nav--prev" type="button" aria-label="Предыдущий интерьер">
+                <img src="assets/icons/left.svg" alt="" aria-hidden="true" />
+              </button>
+              <button class="projects-slider__nav projects-slider__nav--next" type="button" aria-label="Следующий интерьер">
+                <img src="assets/icons/right.svg" alt="" aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="selection-request-section" id="selection-request">
+        <div class="selection-request-section__inner">
+          <h2>Оставить заявку на расчет</h2>
+          <p class="selection-request-section__desc">
+            У многих производителей есть очень похожие декоры, но они могут значительно отличаться
+            по цене. Наш дизайнер подберет для Вас несколько вариантов и сделает точный расчет по
+            каждому.
+          </p>
+
+          <h3>Подберите самый дешевый вариант цвета!</h3>
+          <form class="express-calc-form selection-request-form" action="#" method="post">
+            <label class="express-calc-form__field" for="selectionRequestPhone">
+              <img class="express-calc-form__icon" src="assets/icons/phone.svg" alt="" aria-hidden="true" />
+              <input
+                id="selectionRequestPhone"
+                name="phone"
+                type="tel"
+                placeholder="+7 (___) ___-__-__"
+                autocomplete="tel"
+                required
+              />
+            </label>
+            <button class="express-calc-form__submit" type="submit">Отправить заявку</button>
+
+            <label class="express-calc-form__policy">
+              <input type="checkbox" checked />
+              <span>
+                Согласен на обработку персональных данных, принимаю условия Пользовательского
+                соглашения
+              </span>
+            </label>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <div class="color-modal" id="colorModal" aria-hidden="true">
+      <button class="color-modal__backdrop" type="button" aria-label="Закрыть окно"></button>
+      <div class="color-modal__dialog" role="dialog" aria-modal="true" aria-label="Просмотр цвета">
+        <button class="color-modal__close" type="button" aria-label="Закрыть">×</button>
+        <img class="color-modal__image" id="colorModalImage" src="" alt="" />
+        <p class="color-modal__title" id="colorModalTitle"></p>
+      </div>
+    </div>
+
+    <div class="project-modal" id="projectModal" aria-hidden="true">
+      <button class="project-modal__backdrop" type="button" aria-label="Закрыть окно"></button>
+      <div class="project-modal__dialog" role="dialog" aria-modal="true" aria-label="Просмотр интерьера">
+        <button class="project-modal__close" type="button" aria-label="Закрыть">×</button>
+
+        <div class="project-modal__slider">
+          <button class="project-modal__nav project-modal__nav--prev" type="button" aria-label="Предыдущее фото">
+            <span aria-hidden="true">‹</span>
+          </button>
+          <img class="project-modal__image" id="projectModalImage" src="" alt="" />
+          <button class="project-modal__nav project-modal__nav--next" type="button" aria-label="Следующее фото">
+            <span aria-hidden="true">›</span>
+          </button>
+        </div>
+
+        <p class="project-modal__counter" id="projectModalCounter"></p>
+        <h3 class="project-modal__title" id="projectModalTitle"></h3>
+        <p class="project-modal__desc" id="projectModalDesc"></p>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
