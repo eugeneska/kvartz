@@ -172,13 +172,23 @@ $headers = [
 
 $headersString = implode("\r\n", $headers);
 
+if (!function_exists("mail")) {
+  http_response_code(500);
+  echo json_encode([
+    "success" => false,
+    "message" => "На сервере отключена функция mail(). Нужна SMTP-настройка.",
+  ], JSON_UNESCAPED_UNICODE);
+  exit;
+}
+
 foreach ($emails as $email) {
   $sent = @mail($email, $encodedSubject, $message, $headersString);
   if (!$sent) {
+    error_log("send-request.php: mail() failed for {$email}; from={$from}; host={$fromHost}");
     http_response_code(500);
     echo json_encode([
       "success" => false,
-      "message" => "Не удалось отправить письмо. Проверьте настройки почты на сервере.",
+      "message" => "Сервер не настроен на отправку почты. Проверьте mail()/SMTP у хостинга.",
     ], JSON_UNESCAPED_UNICODE);
     exit;
   }
