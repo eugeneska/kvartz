@@ -7,25 +7,25 @@ const slides = [
   },
   {
     image: "assets/images/hero/back2.webp",
-    text: "Более 700 цветов в наличии! Привезем образцы цветов к Вам!",
+    text: "700+ оттенков в наличии.\nС образцами на дом - бесплатно!",
     actionText: "Заказать доставку образцов",
     href: "#colors",
   },
   {
     image: "assets/images/hero/back3.webp",
-    text: "Узнайте стоимость своей столешницы прямо сейчас!",
+    text: "Рассчитать стоимость!",
     actionText: "Оставить заявку",
     href: "#request-calc",
   },
   {
     image: "assets/images/hero/back4.webp",
-    text: "Самое большое и новое производство!",
+    text: "Самое\u00A0большое\u00A0и\u00A0новое\u00A0производство!",
     actionText: "Узнать больше",
     href: "#production",
   },
   {
     image: "assets/images/hero/back5.webp",
-    text: "Персональный менеджер и сопровождение на всех этапах заказа!",
+    text: "Персональный\u00A0менеджер\u00A0на\u00A0весь\u00A0заказ",
     actionText: "Узнать больше",
     href: "#order-steps",
   },
@@ -54,6 +54,13 @@ const projectModalDesc = document.getElementById("projectModalDesc");
 const projectModalCounter = document.getElementById("projectModalCounter");
 const projectModalPrev = projectModal?.querySelector(".project-modal__nav--prev");
 const projectModalNext = projectModal?.querySelector(".project-modal__nav--next");
+const thanksModal = document.getElementById("thanksModal");
+const forms = Array.from(document.querySelectorAll("form"));
+
+const FORM_ENDPOINT = "send-request.php";
+const recaptchaSiteKey = window.APP_CONFIG?.RECAPTCHA_SITE_KEY || "";
+const recaptchaEnabled = Boolean(recaptchaSiteKey);
+const formCaptchaState = new Map();
 
 const colorsCatalog = [
   { id: "001", name: "5753 КАЛАКАТА АВЕРОН" },
@@ -152,7 +159,9 @@ const projectsCatalog = {
 };
 
 let currentSlide = 0;
-const AUTOPLAY_MS = 5000;
+const PRIMARY_SLIDE_MS = 9000;
+const SECONDARY_SLIDE_MS = 6000;
+let heroAutoplayTimerId = null;
 let activeProject = null;
 let activeProjectImageIndex = 0;
 
@@ -171,6 +180,21 @@ function nextSlide() {
   renderSlide(currentSlide);
 }
 
+function getSlideDurationMs(index) {
+  return index <= 2 ? PRIMARY_SLIDE_MS : SECONDARY_SLIDE_MS;
+}
+
+function scheduleHeroAutoplay() {
+  if (heroAutoplayTimerId) {
+    clearTimeout(heroAutoplayTimerId);
+  }
+
+  heroAutoplayTimerId = setTimeout(() => {
+    nextSlide();
+    scheduleHeroAutoplay();
+  }, getSlideDurationMs(currentSlide));
+}
+
 function runEntranceAnimation() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     document.body.classList.add("page-entered");
@@ -184,18 +208,18 @@ function runEntranceAnimation() {
   });
 }
 
-function handleColorsRequestSubmit(event) {
-  event.preventDefault();
-  colorsRequestNotice.textContent =
-    "Спасибо! В ближайшее время менеджер свяжется с Вами и подтвердит доставку образцов.";
-  colorsRequestForm.reset();
+function openThanksModal() {
+  if (!thanksModal) return;
+  thanksModal.classList.add("is-open");
+  thanksModal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
 }
 
-function handlePromoRequestSubmit(event) {
-  event.preventDefault();
-  promoRequestNotice.textContent =
-    "Спасибо! Мы зафиксировали условия акции и скоро свяжемся с Вами.";
-  promoRequestForm.reset();
+function closeThanksModal() {
+  if (!thanksModal) return;
+  thanksModal.classList.remove("is-open");
+  thanksModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
 }
 
 function openColorModal(name, imageSrc) {
@@ -318,6 +342,10 @@ function setupColorsGallery() {
       closeProjectModal();
     }
 
+    if (event.key === "Escape" && thanksModal?.classList.contains("is-open")) {
+      closeThanksModal();
+    }
+
     if (projectModal?.classList.contains("is-open")) {
       if (event.key === "ArrowLeft") {
         showPrevProjectSlide();
@@ -351,10 +379,252 @@ function setupProjectsGallery() {
   projectsSliderNext?.addEventListener("click", () => scrollProjects(1));
 }
 
+function addCaptchaToForms() {
+  forms.forEach((form, index) => {
+    const captchaWrap = document.createElement("div");
+    captchaWrap.className = "form-captcha";
+
+    const captchaNode = document.createElement("div");
+    captchaNode.className = "g-recaptcha";
+    captchaNode.id = `g-recaptcha-form-${index + 1}`;
+    captchaWrap.appendChild(captchaNode);
+
+    const errorNode = document.createElement("p");
+    errorNode.className = "form-captcha__error";
+    errorNode.setAttribute("aria-live", "polite");
+
+    const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+    if (submitButton) {
+      form.insertBefore(captchaWrap, submitButton);
+      form.insertBefore(errorNode, submitButton);
+    } else {
+      form.appendChild(captchaWrap);
+      form.appendChild(errorNode);
+    }
+
+    formCaptchaState.set(form, {
+      containerId: captchaNode.id,
+      widgetId: null,
+      errorNode,
+    });
+  });
+}
+
+function setCaptchaError(form, message) {
+  const state = formCaptchaState.get(form);
+  if (!state?.errorNode) return;
+  state.errorNode.textContent = message;
+}
+
+function loadRecaptchaScript() {
+  if (window.grecaptcha?.render) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve, reject) => {
+    window.__onRecaptchaLoaded = () => resolve();
+
+    const script = document.createElement("script");
+    script.src = "https://www.google.com/recaptcha/api.js?onload=__onRecaptchaLoaded&render=explicit";
+    script.async = true;
+    script.defer = true;
+    script.onerror = () => reject(new Error("Не удалось загрузить Google reCAPTCHA."));
+    document.head.appendChild(script);
+  });
+}
+
+async function initRecaptcha() {
+  if (!recaptchaEnabled) {
+    console.warn("reCAPTCHA отключена: не задан RECAPTCHA_SITE_KEY в app-config.js");
+    return;
+  }
+
+  addCaptchaToForms();
+
+  try {
+    await loadRecaptchaScript();
+  } catch (error) {
+    console.error(error);
+    forms.forEach((form) => {
+      setCaptchaError(form, "Не удалось загрузить капчу. Проверьте подключение к Google.");
+    });
+    return;
+  }
+
+  forms.forEach((form) => {
+    const state = formCaptchaState.get(form);
+    if (!state || !window.grecaptcha?.render) return;
+    state.widgetId = window.grecaptcha.render(state.containerId, {
+      sitekey: recaptchaSiteKey,
+    });
+  });
+}
+
+function validateFormCaptcha(form) {
+  if (!recaptchaEnabled) return true;
+
+  const state = formCaptchaState.get(form);
+  if (!state || state.widgetId === null || !window.grecaptcha?.getResponse) {
+    setCaptchaError(form, "Капча еще загружается. Попробуйте через пару секунд.");
+    return false;
+  }
+
+  const response = window.grecaptcha.getResponse(state.widgetId);
+  if (!response) {
+    setCaptchaError(form, "Подтвердите, что вы не робот.");
+    return false;
+  }
+
+  setCaptchaError(form, "");
+  return true;
+}
+
+function validateFormConsent(form) {
+  const consentCheckbox = form.querySelector('input[type="checkbox"][required]');
+
+  if (!consentCheckbox) {
+    setCaptchaError(form, "Отметьте согласие на обработку персональных данных.");
+    return false;
+  }
+
+  if (!consentCheckbox.checked) {
+    setCaptchaError(form, "Подтвердите согласие на обработку персональных данных.");
+    consentCheckbox.focus();
+    return false;
+  }
+
+  return true;
+}
+
+function validateFormSubmission(form) {
+  if (!validateFormConsent(form)) {
+    return false;
+  }
+
+  return validateFormCaptcha(form);
+}
+
+function resetFormCaptcha(form) {
+  const state = formCaptchaState.get(form);
+  if (!state || state.widgetId === null || !window.grecaptcha?.reset) return;
+  window.grecaptcha.reset(state.widgetId);
+  setCaptchaError(form, "");
+}
+
+function setupThanksModal() {
+  if (!thanksModal) return;
+
+  const modalBackdrop = thanksModal.querySelector(".thanks-modal__backdrop");
+  const modalClose = thanksModal.querySelector(".thanks-modal__close");
+
+  modalBackdrop?.addEventListener("click", closeThanksModal);
+  modalClose?.addEventListener("click", closeThanksModal);
+}
+
+function setFormSubmitting(form, isSubmitting) {
+  const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+  if (!submitButton) return;
+
+  if (isSubmitting) {
+    submitButton.setAttribute("disabled", "disabled");
+  } else {
+    submitButton.removeAttribute("disabled");
+  }
+}
+
+function getFormMeta(form) {
+  if (form.id === "colorsRequestForm") {
+    return {
+      type: "samples_delivery",
+      name: "Выбирайте дома",
+    };
+  }
+
+  if (form.id === "promoRequestForm") {
+    return {
+      type: "promo_calc",
+      name: "Рассчитать столешницу по акции",
+    };
+  }
+
+  if (form.classList.contains("contacts-form")) {
+    return {
+      type: "contacts_message",
+      name: "Напишите нам",
+    };
+  }
+
+  if (form.classList.contains("selection-request-form")) {
+    return {
+      type: "selection_request",
+      name: "Оставить заявку на расчет",
+    };
+  }
+
+  if (form.classList.contains("express-calc-form")) {
+    return {
+      type: "express_calc",
+      name: "Экспресс расчет",
+    };
+  }
+
+  const localHeading = form.closest("section")?.querySelector("h3, h2")?.textContent?.trim();
+  return {
+    type: "generic_form",
+    name: localHeading || "Форма на сайте",
+  };
+}
+
+async function submitForm(form) {
+  const formMeta = getFormMeta(form);
+  const formData = new FormData(form);
+  formData.append("form_type", formMeta.type);
+  formData.append("form_name", formMeta.name);
+  formData.append("page_url", window.location.href);
+
+  const response = await fetch(FORM_ENDPOINT, {
+    method: "POST",
+    body: formData,
+  });
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok || !payload.success) {
+    throw new Error(payload.message || "Не удалось отправить заявку. Попробуйте снова.");
+  }
+}
+
+function setupFormSubmitHandlers() {
+  forms.forEach((form) => {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!validateFormSubmission(form)) {
+        return;
+      }
+
+      setCaptchaError(form, "");
+      setFormSubmitting(form, true);
+
+      try {
+        await submitForm(form);
+        form.reset();
+        resetFormCaptcha(form);
+        if (colorsRequestNotice) colorsRequestNotice.textContent = "";
+        if (promoRequestNotice) promoRequestNotice.textContent = "";
+        openThanksModal();
+      } catch (error) {
+        setCaptchaError(form, error.message || "Ошибка отправки заявки. Попробуйте еще раз.");
+      } finally {
+        setFormSubmitting(form, false);
+      }
+    });
+  });
+}
+
 renderSlide(currentSlide);
 runEntranceAnimation();
 setupColorsGallery();
 setupProjectsGallery();
-colorsRequestForm?.addEventListener("submit", handleColorsRequestSubmit);
-promoRequestForm?.addEventListener("submit", handlePromoRequestSubmit);
-setInterval(nextSlide, AUTOPLAY_MS);
+setupThanksModal();
+setupFormSubmitHandlers();
+initRecaptcha();
+scheduleHeroAutoplay();
