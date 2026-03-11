@@ -2,12 +2,14 @@ const slides = [
   {
     image: "assets/images/hero/back1.webp",
     text: "Скидка 25% всем новоселам!",
+    mobileText: "Скидка 25% всем\nновоселам!",
     actionText: "Узнать подробности",
     href: "#promo",
   },
   {
     image: "assets/images/hero/back2.webp",
     text: "700+ оттенков в наличии.\nС образцами на дом - бесплатно!",
+    mobileText: "700+ оттенков в наличии.\nС образцами на дом -\nбесплатно!",
     actionText: "Заказать доставку образцов",
     href: "#colors",
   },
@@ -19,13 +21,14 @@ const slides = [
   },
   {
     image: "assets/images/hero/back4.webp",
-    text: "Самое\u00A0большое\u00A0и\u00A0новое\u00A0производство!",
+    text: "Самое большое и новое производство!",
     actionText: "Узнать больше",
     href: "#production",
   },
   {
     image: "assets/images/hero/back5.webp",
-    text: "Персональный\u00A0менеджер\u00A0на\u00A0весь\u00A0заказ",
+    text: "Персональный менеджер на весь заказ",
+    mobileText: "Персональный\nменеджер\nна весь заказ",
     actionText: "Узнать больше",
     href: "#order-steps",
   },
@@ -58,6 +61,7 @@ const thanksModal = document.getElementById("thanksModal");
 const forms = Array.from(document.querySelectorAll("form"));
 
 const FORM_ENDPOINT = "send-request.php";
+const mobileHeroMedia = window.matchMedia("(max-width: 640px)");
 const recaptchaSiteKey = window.APP_CONFIG?.RECAPTCHA_SITE_KEY || "";
 const recaptchaEnabled = Boolean(recaptchaSiteKey);
 const formCaptchaState = new Map();
@@ -168,9 +172,10 @@ let activeProjectImageIndex = 0;
 function renderSlide(index) {
   const slide = slides[index];
   if (!slide) return;
+  const slideMessage = mobileHeroMedia.matches && slide.mobileText ? slide.mobileText : slide.text;
 
   background.style.backgroundImage = `url("${slide.image}")`;
-  slideText.textContent = slide.text;
+  slideText.textContent = slideMessage;
   slideActionText.textContent = slide.actionText;
   slideAction.setAttribute("href", slide.href);
 }
@@ -628,3 +633,9 @@ setupThanksModal();
 setupFormSubmitHandlers();
 initRecaptcha();
 scheduleHeroAutoplay();
+
+if (typeof mobileHeroMedia.addEventListener === "function") {
+  mobileHeroMedia.addEventListener("change", () => renderSlide(currentSlide));
+} else if (typeof mobileHeroMedia.addListener === "function") {
+  mobileHeroMedia.addListener(() => renderSlide(currentSlide));
+}
