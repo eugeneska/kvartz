@@ -12,48 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
   exit;
 }
 
-function loadEnvFromFile(string $filePath): array {
-  if (!is_file($filePath)) {
-    return [];
-  }
-
-  $result = [];
-  $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-  if ($lines === false) {
-    return [];
-  }
-
-  foreach ($lines as $line) {
-    $trimmed = trim($line);
-    if ($trimmed === "" || strpos($trimmed, "#") === 0) {
-      continue;
-    }
-
-    $separatorPos = strpos($trimmed, "=");
-    if ($separatorPos === false) {
-      continue;
-    }
-
-    $key = trim(substr($trimmed, 0, $separatorPos));
-    $value = trim(substr($trimmed, $separatorPos + 1));
-
-    $startsWithDoubleQuote = strpos($value, "\"") === 0;
-    $endsWithDoubleQuote = substr($value, -1) === "\"";
-    $startsWithSingleQuote = strpos($value, "'") === 0;
-    $endsWithSingleQuote = substr($value, -1) === "'";
-
-    if (
-      ($startsWithDoubleQuote && $endsWithDoubleQuote) ||
-      ($startsWithSingleQuote && $endsWithSingleQuote)
-    ) {
-      $value = substr($value, 1, -1);
-    }
-
-    $result[$key] = $value;
-  }
-
-  return $result;
-}
+const RECAPTCHA_SITE_KEY = "6LfX4YUsAAAAAIr1LEtHhKuF7nWn8hPdLLSe08lV";
+const RECAPTCHA_SECRET_KEY = "6LfX4YUsAAAAAMnIeejDrCDQKlFmSms8swZF_keh";
 
 function verifyRecaptcha(string $secret, string $token, string $remoteIp): bool {
   if ($secret === "" || $token === "") {
@@ -99,12 +59,7 @@ function cleanValue(string $value): string {
   return $singleLine ?? "";
 }
 
-$env = loadEnvFromFile(__DIR__ . "/.env");
-$recaptchaSecret = getenv("RECAPTCHA_SECRET_KEY");
-
-if (!is_string($recaptchaSecret) || $recaptchaSecret === "") {
-  $recaptchaSecret = $env["RECAPTCHA_SECRET_KEY"] ?? "";
-}
+$recaptchaSecret = RECAPTCHA_SECRET_KEY;
 
 $recaptchaToken = cleanValue($_POST["g-recaptcha-response"] ?? "");
 $clientIp = $_SERVER["REMOTE_ADDR"] ?? "";
