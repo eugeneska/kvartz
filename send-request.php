@@ -1,17 +1,18 @@
 <?php
+
 header("Content-Type: application/json; charset=utf-8");
 
 if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] !== "POST") {
   http_response_code(405);
-  echo json_encode(array(
+  echo json_encode([
     "success" => false,
     "message" => "Метод не поддерживается.",
-  ), JSON_UNESCAPED_UNICODE);
+  ], JSON_UNESCAPED_UNICODE);
   exit;
 }
 
-define("RECAPTCHA_SITE_KEY", "6LfX4YUsAAAAAIr1LEtHhKuF7nWn8hPdLLSe08lV");
-define("RECAPTCHA_SECRET_KEY", "6LfX4YUsAAAAAMnIeejDrCDQKlFmSms8swZF_keh");
+const RECAPTCHA_SITE_KEY = "6LfX4YUsAAAAAIr1LEtHhKuF7nWn8hPdLLSe08lV";
+const RECAPTCHA_SECRET_KEY = "6LfX4YUsAAAAAMnIeejDrCDQKlFmSms8swZF_keh";
 
 function postValue($key, $defaultValue) {
   if (isset($_POST[$key])) {
@@ -20,13 +21,25 @@ function postValue($key, $defaultValue) {
   return $defaultValue;
 }
 
+function serverValue($key, $defaultValue) {
+  if (isset($_SERVER[$key])) {
+    return $_SERVER[$key];
+  }
+  return $defaultValue;
+}
+
 function cleanValue($value) {
   if (!is_string($value)) {
     return "";
   }
+
   $trimmed = trim($value);
   $singleLine = preg_replace("/\s+/u", " ", $trimmed);
-  return $singleLine !== null ? $singleLine : "";
+  if ($singleLine === null) {
+    return "";
+  }
+
+  return $singleLine;
 }
 
 function verifyRecaptcha($secret, $token, $remoteIp) {
@@ -34,20 +47,20 @@ function verifyRecaptcha($secret, $token, $remoteIp) {
     return false;
   }
 
-  $payload = http_build_query(array(
+  $payload = http_build_query([
     "secret" => $secret,
     "response" => $token,
     "remoteip" => $remoteIp,
-  ));
+  ]);
 
-  $options = array(
-    "http" => array(
+  $options = [
+    "http" => [
       "method" => "POST",
       "header" => "Content-Type: application/x-www-form-urlencoded\r\n",
       "content" => $payload,
       "timeout" => 10,
-    ),
-  );
+    ],
+  ];
 
   $response = @file_get_contents(
     "https://www.google.com/recaptcha/api/siteverify",
@@ -68,15 +81,16 @@ function verifyRecaptcha($secret, $token, $remoteIp) {
 }
 
 $recaptchaSecret = RECAPTCHA_SECRET_KEY;
+
 $recaptchaToken = cleanValue(postValue("g-recaptcha-response", ""));
-$clientIp = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : "";
+$clientIp = cleanValue(serverValue("REMOTE_ADDR", ""));
 
 if (!verifyRecaptcha($recaptchaSecret, $recaptchaToken, $clientIp)) {
   http_response_code(422);
-  echo json_encode(array(
+  echo json_encode([
     "success" => false,
     "message" => "Капча не пройдена. Пожалуйста, попробуйте еще раз.",
-  ), JSON_UNESCAPED_UNICODE);
+  ], JSON_UNESCAPED_UNICODE);
   exit;
 }
 
@@ -90,74 +104,74 @@ $pageUrl = cleanValue(postValue("page_url", ""));
 
 if ($phone === "") {
   http_response_code(422);
-  echo json_encode(array(
+  echo json_encode([
     "success" => false,
     "message" => "Укажите номер телефона.",
-  ), JSON_UNESCAPED_UNICODE);
+  ], JSON_UNESCAPED_UNICODE);
   exit;
 }
 
-$emails = array(
+$emails = [
   "zhenya.brest@gmail.com",
   "skachkov_evgenij@list.ru",
-);
+];
 
-$subjectByType = array(
+$subjectByType = [
   "express_calc" => "Новая заявка: Экспресс расчет",
   "samples_delivery" => "Новая заявка: Доставка образцов",
   "promo_calc" => "Новая заявка: Расчет по акции",
   "selection_request" => "Новая заявка: Подбор цвета",
   "contacts_message" => "Новое сообщение: Напишите нам",
   "generic_form" => "Новая заявка с сайта",
-);
+];
 
 $subject = isset($subjectByType[$formType]) ? $subjectByType[$formType] : "Новая заявка с сайта";
 $encodedSubject = "=?UTF-8?B?" . base64_encode($subject) . "?=";
 
 switch ($formType) {
   case "samples_delivery":
-    $messageLines = array(
+    $messageLines = [
       "Тип заявки: Выбирайте дома",
       "Имя: " . ($name !== "" ? $name : "-"),
       "Телефон: " . $phone,
       "Адрес доставки: " . ($address !== "" ? $address : "-"),
-    );
+    ];
     break;
   case "promo_calc":
-    $messageLines = array(
+    $messageLines = [
       "Тип заявки: Акция",
       "Имя: " . ($name !== "" ? $name : "-"),
       "Телефон: " . $phone,
-    );
+    ];
     break;
   case "selection_request":
-    $messageLines = array(
+    $messageLines = [
       "Тип заявки: Оставить заявку на расчет",
       "Телефон: " . $phone,
-    );
+    ];
     break;
   case "contacts_message":
-    $messageLines = array(
+    $messageLines = [
       "Тип заявки: Контакты",
       "Имя: " . ($name !== "" ? $name : "-"),
       "Телефон: " . $phone,
       "Комментарий: " . ($comment !== "" ? $comment : "-"),
-    );
+    ];
     break;
   case "express_calc":
-    $messageLines = array(
+    $messageLines = [
       "Тип заявки: Экспресс расчет",
       "Телефон: " . $phone,
-    );
+    ];
     break;
   default:
-    $messageLines = array(
+    $messageLines = [
       "Тип заявки: " . $formName,
       "Имя: " . ($name !== "" ? $name : "-"),
       "Телефон: " . $phone,
       "Адрес: " . ($address !== "" ? $address : "-"),
       "Комментарий: " . ($comment !== "" ? $comment : "-"),
-    );
+    ];
     break;
 }
 
@@ -167,49 +181,29 @@ $messageLines[] = "IP: " . ($clientIp !== "" ? $clientIp : "-");
 $messageLines[] = "Дата: " . date("Y-m-d H:i:s");
 
 $message = implode("\n", $messageLines);
-$fromHost = isset($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : "localhost";
-$from = "zakaz@quartz-x.ru";
 
-$headers = array(
+$fromHost = cleanValue(serverValue("HTTP_HOST", "localhost"));
+$from = "zakaz@quartz-x.ru";
+$headers = [
   "MIME-Version: 1.0",
   "Content-Type: text/plain; charset=UTF-8",
-  "From: " . $from,
-  "Reply-To: " . $from,
-);
+  "From: {$from}",
+  "Reply-To: {$from}",
+];
+
 $headersString = implode("\r\n", $headers);
 
 if (!function_exists("mail")) {
   http_response_code(500);
-  echo json_encode(array(
+  echo json_encode([
     "success" => false,
     "message" => "На сервере отключена функция mail(). Нужна SMTP-настройка.",
-  ), JSON_UNESCAPED_UNICODE);
+  ], JSON_UNESCAPED_UNICODE);
   exit;
 }
 
 $sendmailParams = "";
 if (filter_var($from, FILTER_VALIDATE_EMAIL)) {
-<<<<<<< HEAD
-  $sendmailParams = "-f" . $from;
-}
-
-$sentAny = false;
-$failedRecipients = array();
-
-foreach ($emails as $email) {
-  $sent = false;
-  if ($sendmailParams !== "") {
-    $sent = @mail($email, $encodedSubject, $message, $headersString, $sendmailParams);
-  }
-  if (!$sent) {
-    $sent = @mail($email, $encodedSubject, $message, $headersString);
-  }
-
-  if ($sent) {
-    $sentAny = true;
-  } else {
-    $failedRecipients[] = $email;
-=======
   // On many hosting setups mail() requires envelope sender via -f.
   $sendmailParams = "-f{$from}";
 }
@@ -222,7 +216,6 @@ foreach ($emails as $email) {
 
   if ($sendmailParams !== "") {
     $sent = @mail($email, $encodedSubject, $message, $headersString, $sendmailParams);
->>>>>>> origin/main
   }
 
   if (!$sent) {
@@ -254,25 +247,7 @@ if (!empty($failedRecipients)) {
   error_log("send-request.php: partial mail() failure; failed=" . implode(",", $failedRecipients));
 }
 
-if (!$sentAny) {
-  error_log(
-    "send-request.php: mail() failed for all recipients; from=" . $from .
-    "; host=" . $fromHost .
-    "; failed=" . implode(",", $failedRecipients)
-  );
-  http_response_code(500);
-  echo json_encode(array(
-    "success" => false,
-    "message" => "Сервер не настроен на отправку почты. Проверьте mail()/SMTP у хостинга.",
-  ), JSON_UNESCAPED_UNICODE);
-  exit;
-}
-
-if (!empty($failedRecipients)) {
-  error_log("send-request.php: partial mail() failure; failed=" . implode(",", $failedRecipients));
-}
-
-echo json_encode(array(
+echo json_encode([
   "success" => true,
   "message" => "Заявка отправлена.",
-), JSON_UNESCAPED_UNICODE);
+], JSON_UNESCAPED_UNICODE);
