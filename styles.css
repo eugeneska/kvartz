@@ -192,6 +192,15 @@ input {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
+.hero__title-subline {
+  display: block;
+  margin-top: 8px;
+  font-size: clamp(16px, 1.35vw, 24px);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .hero__contacts {
   display: flex;
   flex-direction: column;
@@ -384,15 +393,13 @@ input {
   padding: 10px 16px;
   border-radius: 8px;
   color: #ffffff;
-  background: rgba(207, 15, 43, 0.58);
+  background: #cf0f2b;
   font-size: clamp(16px, 1.35vw, 20px);
   font-weight: 600;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  border: 1px solid rgba(255, 255, 255, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.52);
   text-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
   transition:
     transform 0.2s ease,
     border-color 0.2s ease,
@@ -402,18 +409,18 @@ input {
 .hero__slide-link:hover {
   transform: translateY(-2px);
   border-color: rgba(255, 255, 255, 0.62);
-  background: rgba(207, 15, 43, 0.72);
+  background: #b20d25;
   color: #ffffff;
 }
 
 .hero__slide-link .express-btn__arrow-icon {
   width: 24px;
   height: 24px;
-  transform: translateY(3px);
+  transform: translateY(0);
 }
 
 .hero__slide-link:hover .express-btn__arrow-icon {
-  transform: translate(2px, 3px);
+  transform: translate(2px, 0);
 }
 
 .hero__scroll-cue {
@@ -517,13 +524,13 @@ input {
 
 .express-calc-form__submit {
   margin-top: 18px;
-  min-height: 58px;
-  width: min(100%, 360px);
+  min-height: 56px;
+  width: min(100%, 320px);
   border: 1px solid #cf0f2b;
   border-radius: 999px;
   background: #cf0f2b;
   color: #fff;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
@@ -729,13 +736,13 @@ input {
   grid-column: 1 / -1;
   justify-self: center;
   margin-top: 8px;
-  min-height: 44px;
-  width: min(100%, 280px);
+  min-height: 56px;
+  width: min(100%, 320px);
   border: 1px solid #cf0f2b;
   border-radius: 999px;
   background: #cf0f2b;
   color: #fff;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
@@ -1018,13 +1025,13 @@ input {
   grid-column: 1 / -1;
   justify-self: center;
   margin-top: 8px;
-  min-height: 44px;
-  width: min(100%, 280px);
+  min-height: 56px;
+  width: min(100%, 320px);
   border: 1px solid #cf0f2b;
   border-radius: 999px;
   background: #cf0f2b;
   color: #fff;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
@@ -1921,14 +1928,14 @@ input {
 }
 
 .contacts-form__submit {
-  height: 48px;
-  width: min(100%, 260px);
+  min-height: 56px;
+  width: min(100%, 320px);
   align-self: center;
   border: 1px solid #cf0f2b;
   border-radius: 999px;
   background: #cf0f2b;
   color: #fff;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
