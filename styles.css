@@ -2608,7 +2608,9 @@ body.page-entered .side-menu__link:nth-child(7) {
 @media (max-width: 640px) {
   .hero {
     margin: 0;
-    min-height: 92svh;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: 76px;
     padding-bottom: 0;
     border-radius: 0;
   }
@@ -2623,6 +2625,11 @@ body.page-entered .side-menu__link:nth-child(7) {
   }
 
   .hero__top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 120;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 12px;
@@ -2685,7 +2692,7 @@ body.page-entered .side-menu__link:nth-child(7) {
     position: absolute;
     left: 14px;
     right: 14px;
-    bottom: 96px;
+    bottom: 175px;
     margin: 0;
     padding: 0;
     text-align: center;
@@ -2693,17 +2700,17 @@ body.page-entered .side-menu__link:nth-child(7) {
   }
 
   .hero__slide-text {
-    font-size: clamp(44px, 9.4vw, 62px);
+    font-size: clamp(52px, 11vw, 74px);
     margin: 0;
     line-height: 1.06;
     max-width: 100%;
     text-transform: none;
-    font-weight: 700;
+    font-weight: 800;
     text-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
   }
 
   .hero__slide-link {
-    margin-top: 18px;
+    margin-top: 45px;
     width: 100%;
     min-height: 52px;
     justify-content: center;
@@ -2730,11 +2737,17 @@ body.page-entered .side-menu__link:nth-child(7) {
   }
 
   .hero__scroll-cue {
-    display: none;
+    display: grid;
+    left: 50%;
+    bottom: 0;
+    width: 46px;
+    height: 46px;
   }
 
   .hero__scroll-cue svg {
-    display: none;
+    display: block;
+    width: 24px;
+    height: 24px;
   }
 
   .side-menu {
