@@ -189,6 +189,7 @@ if (!function_exists("mail")) {
 
 $sendmailParams = "";
 if (filter_var($from, FILTER_VALIDATE_EMAIL)) {
+<<<<<<< HEAD
   $sendmailParams = "-f" . $from;
 }
 
@@ -208,7 +209,49 @@ foreach ($emails as $email) {
     $sentAny = true;
   } else {
     $failedRecipients[] = $email;
+=======
+  // On many hosting setups mail() requires envelope sender via -f.
+  $sendmailParams = "-f{$from}";
+}
+
+$sentAny = false;
+$failedRecipients = [];
+
+foreach ($emails as $email) {
+  $sent = false;
+
+  if ($sendmailParams !== "") {
+    $sent = @mail($email, $encodedSubject, $message, $headersString, $sendmailParams);
+>>>>>>> origin/main
   }
+
+  if (!$sent) {
+    // Fallback for hosts that ignore the 5th argument.
+    $sent = @mail($email, $encodedSubject, $message, $headersString);
+  }
+
+  if ($sent) {
+    $sentAny = true;
+  } else {
+    $failedRecipients[] = $email;
+  }
+}
+
+if (!$sentAny) {
+  error_log(
+    "send-request.php: mail() failed for all recipients; from={$from}; host={$fromHost}; failed=" .
+    implode(",", $failedRecipients)
+  );
+  http_response_code(500);
+  echo json_encode([
+    "success" => false,
+    "message" => "Сервер не настроен на отправку почты. Проверьте mail()/SMTP у хостинга.",
+  ], JSON_UNESCAPED_UNICODE);
+  exit;
+}
+
+if (!empty($failedRecipients)) {
+  error_log("send-request.php: partial mail() failure; failed=" . implode(",", $failedRecipients));
 }
 
 if (!$sentAny) {
