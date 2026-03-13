@@ -66,7 +66,9 @@ const showroomMapButtons = Array.from(document.querySelectorAll(".showroom-map-b
 const FORM_ENDPOINT = "send-request.php";
 const YANDEX_MAPS_API_KEY = "fe729bc9-7be5-49eb-bd4f-7d96efcb7e56";
 const MOBILE_HERO_FIXED_SLIDE_INDEX = 1;
+const MOBILE_HERO_BG_IMAGE = "assets/images/hero/mobile-hero-bg.png";
 const mobileHeroMedia = window.matchMedia("(max-width: 640px)");
+const mobileHeroBackgroundMedia = window.matchMedia("(max-width: 980px)");
 const recaptchaSiteKey = window.APP_CONFIG?.RECAPTCHA_SITE_KEY || "";
 const recaptchaEnabled = Boolean(recaptchaSiteKey);
 const formCaptchaState = new Map();
@@ -213,9 +215,13 @@ function renderSlide(index) {
   const slide = slides[activeSlideIndex];
   if (!slide) return;
   const slideMessage = mobileHeroMedia.matches && slide.mobileText ? slide.mobileText : slide.text;
-
-  background.style.backgroundImage = `url("${slide.image}")`;
-  background.style.backgroundPosition = slide.position || "center";
+  if (mobileHeroBackgroundMedia.matches) {
+    background.style.backgroundImage = "";
+    background.style.backgroundPosition = "center center";
+  } else {
+    background.style.backgroundImage = `url("${slide.image}")`;
+    background.style.backgroundPosition = slide.position || "center";
+  }
   slideText.textContent = slideMessage;
   slideActionText.textContent = slide.actionText;
   slideAction.setAttribute("href", slide.href);
@@ -255,6 +261,9 @@ function preloadHeroSlides() {
   const imagesToPreload = slides
     .map((slide) => slide.image)
     .filter((image, index, array) => image && image !== currentHeroImage && array.indexOf(image) === index);
+  if (!imagesToPreload.includes(MOBILE_HERO_BG_IMAGE)) {
+    imagesToPreload.push(MOBILE_HERO_BG_IMAGE);
+  }
 
   if (!imagesToPreload.length) return;
 
@@ -899,20 +908,21 @@ setupFormSubmitHandlers();
 initRecaptcha();
 scheduleHeroAutoplay();
 
+function handleHeroMediaChange() {
+  renderSlide(currentSlide);
+  scheduleHeroAutoplay();
+  if (!mobileHeroMedia.matches && mobileNav?.classList.contains("is-open")) {
+    mobileNav.classList.remove("is-open");
+    mobileNav.setAttribute("aria-hidden", "true");
+    heroBurgerButton?.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+}
+
 if (typeof mobileHeroMedia.addEventListener === "function") {
-  mobileHeroMedia.addEventListener("change", () => {
-    renderSlide(currentSlide);
-    scheduleHeroAutoplay();
-    if (!mobileHeroMedia.matches && mobileNav?.classList.contains("is-open")) {
-      mobileNav.classList.remove("is-open");
-      mobileNav.setAttribute("aria-hidden", "true");
-      heroBurgerButton?.setAttribute("aria-expanded", "false");
-      document.body.style.overflow = "";
-    }
-  });
+  mobileHeroMedia.addEventListener("change", handleHeroMediaChange);
+  mobileHeroBackgroundMedia.addEventListener("change", handleHeroMediaChange);
 } else if (typeof mobileHeroMedia.addListener === "function") {
-  mobileHeroMedia.addListener(() => {
-    renderSlide(currentSlide);
-    scheduleHeroAutoplay();
-  });
+  mobileHeroMedia.addListener(handleHeroMediaChange);
+  mobileHeroBackgroundMedia.addListener(handleHeroMediaChange);
 }

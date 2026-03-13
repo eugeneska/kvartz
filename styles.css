@@ -2477,6 +2477,11 @@ body.page-entered .side-menu__link:nth-child(7) {
     padding-bottom: 64px;
   }
 
+  .hero__bg {
+    background-image: url("assets/images/hero/mobile-hero-bg.png");
+    background-position: center center;
+  }
+
   .hero__top {
     grid-template-columns: 1fr;
     justify-items: center;
@@ -2613,6 +2618,11 @@ body.page-entered .side-menu__link:nth-child(7) {
     padding-top: 76px;
     padding-bottom: 0;
     border-radius: 0;
+  }
+
+  .hero__bg {
+    background-image: url("assets/images/hero/mobile-hero-bg.png");
+    background-position: center center;
   }
 
   .hero__overlay {
