@@ -1,6 +1,7 @@
 const slides = [
   {
     image: "assets/images/hero/back1.webp",
+    position: "62% center",
     text: "Скидка 25% всем новоселам!",
     mobileText: "Скидка 25% всем\nновоселам!",
     actionText: "Узнать подробности",
@@ -59,8 +60,12 @@ const projectModalPrev = projectModal?.querySelector(".project-modal__nav--prev"
 const projectModalNext = projectModal?.querySelector(".project-modal__nav--next");
 const thanksModal = document.getElementById("thanksModal");
 const forms = Array.from(document.querySelectorAll("form"));
+const showroomMapContainer = document.getElementById("showroomsMap");
+const showroomMapButtons = Array.from(document.querySelectorAll(".showroom-map-btn"));
 
 const FORM_ENDPOINT = "send-request.php";
+const YANDEX_MAPS_API_KEY = "fe729bc9-7be5-49eb-bd4f-7d96efcb7e56";
+const MOBILE_HERO_FIXED_SLIDE_INDEX = 1;
 const mobileHeroMedia = window.matchMedia("(max-width: 640px)");
 const recaptchaSiteKey = window.APP_CONFIG?.RECAPTCHA_SITE_KEY || "";
 const recaptchaEnabled = Boolean(recaptchaSiteKey);
@@ -96,9 +101,9 @@ const colorsCatalog = [
 
 const projectsCatalog = {
   "project-1": {
-    title: "Светлая кухня",
+    title: "Кварц Avant цвет Калаката Мон Сен-Мишель",
     description:
-      "Минималистичный интерьер со светлой кварцевой поверхностью, где важны чистые линии, тактильность и легкость ухода.",
+      "Частные апартаменты. Санкт-Петербург. Идеальный выбор для ванной комнаты. Графика камня перекликается с графикой города. Контрастные линии, четкий ритм, северная сдержанность.",
     images: [
       "assets/images/projects/1.webp",
       "assets/images/projects/1.1.webp",
@@ -109,9 +114,9 @@ const projectsCatalog = {
     ],
   },
   "project-2": {
-    title: "Гостиная-столовая",
+    title: "Кварц Avant цвет 7630 Калаката Венсен",
     description:
-      "Пространство с акцентной рабочей зоной и выразительным рисунком камня, рассчитанное на ежедневные активные сценарии.",
+      "Частные апартаменты. Москва-Сити. Фактура камня поддерживает ритм небоскребов. Светлый фон и чёткие прожилки — для интерьера, который не теряется на высоте, а становится её частью.",
     images: [
       "assets/images/projects/2.webp",
       "assets/images/projects/2.1.webp",
@@ -122,9 +127,9 @@ const projectsCatalog = {
     ],
   },
   "project-3": {
-    title: "Ванная комната",
+    title: "Керамика Laminam цвет Graphite",
     description:
-      "Компактная композиция с цельной столешницей и интегрированной геометрией, устойчивой к влаге и бытовым нагрузкам.",
+      "Кварц Noblle, цвет Q703 Calacatta Borghini. Кварц Аварус, цвет R543 Снега Сибири. Загородный дом. Московская область. Три разных материала. Один дом. Одно чувство стиля.",
     images: [
       "assets/images/projects/3.webp",
       "assets/images/projects/3.1.webp",
@@ -133,9 +138,9 @@ const projectsCatalog = {
     ],
   },
   "project-4": {
-    title: "Классическая кухня",
+    title: "Кварц Avant цвет 5750 Калаката Шери",
     description:
-      "Теплая классика с декоративными фасадами и долговечной рабочей поверхностью, которая сохраняет аккуратный вид годами.",
+      "Барная стойка с подсветкой в московском отеле. Мягкий свет подчеркивает рисунок камня — создаёт настроение в вечернем лобби.",
     images: [
       "assets/images/projects/4.webp",
       "assets/images/projects/4.1.webp",
@@ -148,9 +153,9 @@ const projectsCatalog = {
     ],
   },
   "project-5": {
-    title: "Кухня в темных тонах",
+    title: "Кварц Avant цвет Калаката Мон Сен-Мишель",
     description:
-      "Контрастное решение с выразительной текстурой и практичной эргономикой, созданное для современного ритма жизни.",
+      "Частные апартаменты. Санкт-Петербург. Идеальный выбор для ванной комнаты. Графика камня перекликается с графикой города. Контрастные линии, четкий ритм, северная сдержанность.",
     images: [
       "assets/images/projects/5.1.webp",
       "assets/images/projects/5.2.webp",
@@ -168,19 +173,59 @@ const SECONDARY_SLIDE_MS = 6000;
 let heroAutoplayTimerId = null;
 let activeProject = null;
 let activeProjectImageIndex = 0;
+let showroomMap = null;
+let showroomPlacemark = null;
+let yandexMapsLoaderPromise = null;
+let showroomsInitStarted = false;
+const heroBurgerButton = document.querySelector(".hero__burger");
+const sideMenu = document.querySelector(".side-menu");
+const mobileNav = document.getElementById("mobileNav");
+const mobileNavBackdrop = mobileNav?.querySelector(".mobile-nav__backdrop");
+const mobileNavClose = mobileNav?.querySelector(".mobile-nav__close");
+const mobileNavLinks = Array.from(mobileNav?.querySelectorAll(".mobile-nav__links a") || []);
+
+const showrooms = {
+  "main-office": {
+    id: "main-office",
+    coords: [55.867476, 37.653128],
+    address: "Москва, Искры 17а, стр.2.",
+  },
+  pushkino: {
+    id: "pushkino",
+    coords: [56.017782, 37.844784],
+    address: "МО, Пушкино, Красноармейское шоссе, 101",
+  },
+  istra: {
+    id: "istra",
+    coords: [55.915426, 36.867196],
+    address: "МО, Истра, Шнырева 56",
+  },
+  spb: {
+    id: "spb",
+    coords: [59.874066, 30.376863],
+    address: 'Санкт-Петербург, ул. Фучика 9, МЦ "Кубатура", 2 этаж, Павильон 2В.525',
+  },
+};
 
 function renderSlide(index) {
-  const slide = slides[index];
+  if (!background || !slideText || !slideAction || !slideActionText) return;
+  const activeSlideIndex = mobileHeroMedia.matches ? MOBILE_HERO_FIXED_SLIDE_INDEX : index;
+  const slide = slides[activeSlideIndex];
   if (!slide) return;
   const slideMessage = mobileHeroMedia.matches && slide.mobileText ? slide.mobileText : slide.text;
 
   background.style.backgroundImage = `url("${slide.image}")`;
+  background.style.backgroundPosition = slide.position || "center";
   slideText.textContent = slideMessage;
   slideActionText.textContent = slide.actionText;
   slideAction.setAttribute("href", slide.href);
 }
 
 function nextSlide() {
+  if (mobileHeroMedia.matches) {
+    renderSlide(currentSlide);
+    return;
+  }
   currentSlide = (currentSlide + 1) % slides.length;
   renderSlide(currentSlide);
 }
@@ -194,10 +239,38 @@ function scheduleHeroAutoplay() {
     clearTimeout(heroAutoplayTimerId);
   }
 
+  if (mobileHeroMedia.matches) {
+    heroAutoplayTimerId = null;
+    return;
+  }
+
   heroAutoplayTimerId = setTimeout(() => {
     nextSlide();
     scheduleHeroAutoplay();
   }, getSlideDurationMs(currentSlide));
+}
+
+function preloadHeroSlides() {
+  const currentHeroImage = slides[currentSlide]?.image;
+  const imagesToPreload = slides
+    .map((slide) => slide.image)
+    .filter((image, index, array) => image && image !== currentHeroImage && array.indexOf(image) === index);
+
+  if (!imagesToPreload.length) return;
+
+  const preload = () => {
+    imagesToPreload.forEach((imageSrc) => {
+      const image = new Image();
+      image.decoding = "async";
+      image.src = imageSrc;
+    });
+  };
+
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(preload, { timeout: 2000 });
+  } else {
+    setTimeout(preload, 600);
+  }
 }
 
 function runEntranceAnimation() {
@@ -382,6 +455,180 @@ function setupProjectsGallery() {
 
   projectsSliderPrev?.addEventListener("click", () => scrollProjects(-1));
   projectsSliderNext?.addEventListener("click", () => scrollProjects(1));
+}
+
+function setupMobileHeroBurger() {
+  if (!heroBurgerButton || !mobileNav) return;
+
+  const closeMobileNav = () => {
+    mobileNav.classList.remove("is-open");
+    mobileNav.setAttribute("aria-hidden", "true");
+    heroBurgerButton.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  };
+
+  heroBurgerButton.addEventListener("click", () => {
+    const isOpen = !mobileNav.classList.contains("is-open");
+    mobileNav.classList.toggle("is-open", isOpen);
+    mobileNav.setAttribute("aria-hidden", isOpen ? "false" : "true");
+    heroBurgerButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    document.body.style.overflow = isOpen ? "hidden" : "";
+  });
+
+  mobileNavBackdrop?.addEventListener("click", closeMobileNav);
+  mobileNavClose?.addEventListener("click", closeMobileNav);
+  mobileNavLinks.forEach((link) => link.addEventListener("click", closeMobileNav));
+}
+
+function setActiveShowroomButton(showroomId) {
+  showroomMapButtons.forEach((button) => {
+    const isActive = button.dataset.showroomId === showroomId;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", isActive ? "true" : "false");
+  });
+}
+
+function focusShowroomOnMap(showroomId) {
+  const showroom = showrooms[showroomId];
+  if (!showroom || !showroomMap || !showroomPlacemark) return;
+
+  showroomPlacemark.geometry.setCoordinates(showroom.coords);
+  showroomPlacemark.properties.set("balloonContent", showroom.address);
+  showroomPlacemark.properties.set("iconCaption", showroom.address);
+  showroomMap.setCenter(showroom.coords, 15, { duration: 280 });
+  showroomPlacemark.balloon.open();
+  setActiveShowroomButton(showroomId);
+}
+
+function getDefaultShowroom() {
+  return showrooms.pushkino || Object.values(showrooms)[0] || null;
+}
+
+function getShowroomWidgetUrl(showroom) {
+  const [lat, lon] = showroom.coords;
+  const ll = `${lon},${lat}`;
+  const point = `${lon},${lat},pm2rdm`;
+  return `https://yandex.ru/map-widget/v1/?ll=${encodeURIComponent(ll)}&z=15&pt=${encodeURIComponent(point)}`;
+}
+
+function renderShowroomMapWidget(showroomId) {
+  const showroom = showrooms[showroomId];
+  if (!showroom || !showroomMapContainer) return;
+  showroomMapContainer.innerHTML = `<iframe class="showrooms-map__frame" src="${getShowroomWidgetUrl(showroom)}" frameborder="0" allowfullscreen title="Карта шоу-румов"></iframe>`;
+  setActiveShowroomButton(showroomId);
+}
+
+function loadYandexMapsApi() {
+  if (window.ymaps?.ready && window.ymaps?.Map && window.ymaps?.Placemark) {
+    return Promise.resolve();
+  }
+
+  if (yandexMapsLoaderPromise) {
+    return yandexMapsLoaderPromise;
+  }
+
+  yandexMapsLoaderPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = `https://api-maps.yandex.ru/2.1/?apikey=${YANDEX_MAPS_API_KEY}&lang=ru_RU`;
+    script.async = true;
+    script.onerror = () => reject(new Error("Не удалось загрузить API Яндекс Карт."));
+    script.onload = () => {
+      if (window.ymaps?.ready && window.ymaps?.Map && window.ymaps?.Placemark) {
+        resolve();
+      } else {
+        reject(new Error("API Яндекс Карт загружен некорректно."));
+      }
+    };
+    document.head.appendChild(script);
+  });
+
+  return yandexMapsLoaderPromise;
+}
+
+function setupShowroomsButtons() {
+  showroomMapButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
+    button.addEventListener("click", () => {
+      const showroomId = button.dataset.showroomId;
+      if (!showroomId) return;
+
+      if (showroomMap && showroomPlacemark) {
+        focusShowroomOnMap(showroomId);
+      } else {
+        renderShowroomMapWidget(showroomId);
+      }
+    });
+  });
+}
+
+function initShowroomsMapWhenVisible() {
+  if (!showroomMapContainer || !showroomMapButtons.length || showroomsInitStarted) return;
+
+  const startInit = () => {
+    if (showroomsInitStarted) return;
+    showroomsInitStarted = true;
+    initShowroomsMap();
+  };
+
+  if (typeof IntersectionObserver !== "function") {
+    startInit();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const [entry] = entries;
+      if (!entry?.isIntersecting) return;
+      observer.disconnect();
+      startInit();
+    },
+    {
+      rootMargin: "300px 0px",
+      threshold: 0.01,
+    },
+  );
+
+  observer.observe(showroomMapContainer);
+}
+
+async function initShowroomsMap() {
+  if (!showroomMapContainer || !showroomMapButtons.length) return;
+
+  const defaultShowroom = getDefaultShowroom();
+  if (!defaultShowroom) return;
+
+  setupShowroomsButtons();
+  renderShowroomMapWidget(defaultShowroom.id);
+
+  try {
+    await loadYandexMapsApi();
+    window.ymaps.ready(() => {
+      showroomMapContainer.innerHTML = "";
+      showroomMap = new window.ymaps.Map(showroomMapContainer, {
+        center: defaultShowroom.coords,
+        zoom: 15,
+        controls: ["zoomControl", "fullscreenControl"],
+      });
+
+      showroomPlacemark = new window.ymaps.Placemark(
+        defaultShowroom.coords,
+        {
+          balloonContent: defaultShowroom.address,
+          iconCaption: defaultShowroom.address,
+        },
+        {
+          preset: "islands#redDotIcon",
+        },
+      );
+
+      showroomMap.geoObjects.add(showroomPlacemark);
+      showroomMap.behaviors.disable("scrollZoom");
+      showroomPlacemark.balloon.open();
+      setActiveShowroomButton(defaultShowroom.id);
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function addCaptchaToForms() {
@@ -625,17 +872,47 @@ function setupFormSubmitHandlers() {
   });
 }
 
+function optimizeImageLoading() {
+  const images = document.querySelectorAll("img");
+  images.forEach((image) => {
+    if (!image.getAttribute("decoding")) {
+      image.setAttribute("decoding", "async");
+    }
+
+    const isHighPriority = image.closest(".logo-card") || image.closest(".hero__top");
+    if (!isHighPriority && !image.getAttribute("loading")) {
+      image.setAttribute("loading", "lazy");
+    }
+  });
+}
+
+optimizeImageLoading();
 renderSlide(currentSlide);
+preloadHeroSlides();
 runEntranceAnimation();
 setupColorsGallery();
 setupProjectsGallery();
+setupMobileHeroBurger();
+initShowroomsMapWhenVisible();
 setupThanksModal();
 setupFormSubmitHandlers();
 initRecaptcha();
 scheduleHeroAutoplay();
 
 if (typeof mobileHeroMedia.addEventListener === "function") {
-  mobileHeroMedia.addEventListener("change", () => renderSlide(currentSlide));
+  mobileHeroMedia.addEventListener("change", () => {
+    renderSlide(currentSlide);
+    scheduleHeroAutoplay();
+    if (!mobileHeroMedia.matches && mobileNav?.classList.contains("is-open")) {
+      mobileNav.classList.remove("is-open");
+      mobileNav.setAttribute("aria-hidden", "true");
+      heroBurgerButton?.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
+  });
 } else if (typeof mobileHeroMedia.addListener === "function") {
-  mobileHeroMedia.addListener(() => renderSlide(currentSlide));
+  mobileHeroMedia.addListener(() => {
+    renderSlide(currentSlide);
+    scheduleHeroAutoplay();
+  });
 }

@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Кварцевые столешницы</title>
+    <link rel="preconnect" href="https://api-maps.yandex.ru" crossorigin />
+    <link rel="preconnect" href="https://www.google.com" crossorigin />
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="//api-maps.yandex.ru" />
+    <link rel="dns-prefetch" href="//www.google.com" />
+    <link rel="dns-prefetch" href="//www.gstatic.com" />
     <link rel="preload" as="image" href="assets/images/hero/back1.webp" fetchpriority="high" />
     <link rel="preload" as="image" href="assets/icons/logo.svg" fetchpriority="high" />
     <link
@@ -63,6 +69,42 @@
       </a>
     </aside>
 
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <button class="mobile-nav__backdrop" type="button" aria-label="Закрыть меню"></button>
+      <div class="mobile-nav__panel" role="dialog" aria-modal="true" aria-label="Мобильное меню">
+        <div class="mobile-nav__top">
+          <span class="mobile-nav__title">Меню</span>
+          <button class="mobile-nav__close" type="button" aria-label="Закрыть меню">×</button>
+        </div>
+
+        <nav class="mobile-nav__links" aria-label="Разделы сайта">
+          <a href="#express-calc"><span>Расчет</span><span class="mobile-nav__plus" aria-hidden="true">+</span></a>
+          <a href="#colors"><span>Цвета</span><span class="mobile-nav__plus" aria-hidden="true">+</span></a>
+          <a href="#promo"><span>Акция</span><span class="mobile-nav__plus" aria-hidden="true">+</span></a>
+          <a href="#production"><span>Производство</span><span class="mobile-nav__plus" aria-hidden="true">+</span></a>
+          <a href="#projects"><span>Галерея</span><span class="mobile-nav__plus" aria-hidden="true">+</span></a>
+          <a href="#contacts"><span>Контакты</span><span class="mobile-nav__plus" aria-hidden="true">+</span></a>
+        </nav>
+
+        <a class="mobile-nav__cta" href="#colors">СМОТРЕТЬ ЦВЕТА</a>
+
+        <div class="mobile-nav__contacts">
+          <a class="mobile-nav__phone" href="tel:+79037245256">+7 903 724 52-56</a>
+          <div class="mobile-nav__messengers" aria-label="Мессенджеры">
+            <a href="https://t.me" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+              <img src="assets/icons/tgh.svg" alt="Telegram" />
+            </a>
+            <a href="https://wa.me/79037245256" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+              <img src="assets/icons/whatsapp.svg" alt="WhatsApp" />
+            </a>
+            <a href="https://max.ru" target="_blank" rel="noopener noreferrer" aria-label="Max">
+              <img src="assets/icons/maxh.svg" alt="Max" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <main>
       <section class="hero" id="hero">
         <div class="hero__bg" aria-hidden="true"></div>
@@ -77,6 +119,12 @@
               <span>Кварцевые поверхности</span>
             </div>
           </div>
+
+          <button class="hero__burger" type="button" aria-label="Открыть меню" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
 
           <div class="hero__title-group">
             <h1>Столешницы из кварца</h1>
@@ -271,7 +319,7 @@
         <div class="promo-section__inner">
           <h2>Акция</h2>
 
-          <div class="promo-banner">Акция! Скидка 25% всем новоселам!</div>
+          <div class="promo-banner">Скидка 25% всем новоселам!</div>
 
           <div class="promo-request">
             <h3>Рассчитать столешницу по акции!</h3>
@@ -281,9 +329,16 @@
                 <span class="request-field__required" aria-hidden="true">*</span>
                 <input type="text" name="name" placeholder="Имя" autocomplete="name" required />
               </label>
-              <label class="request-field">
+              <label class="request-field express-calc-form__field">
                 <span class="request-field__required" aria-hidden="true">*</span>
-                <input type="tel" name="phone" placeholder="Телефон" autocomplete="tel" required />
+                <img class="express-calc-form__icon" src="assets/icons/phone.svg" alt="" aria-hidden="true" />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="+7 (___) ___-__-__"
+                  autocomplete="tel"
+                  required
+                />
               </label>
               <button type="submit">Отправить</button>
 
@@ -337,14 +392,12 @@
         <div class="production-section__inner">
           <h2>Производство</h2>
           <p class="production-section__desc">
-            На каждом этапе мы контролируем точность размеров и качество обработки, чтобы изделие
-            идеально встало в Ваш интерьер. Современное оборудование позволяет выполнять сложные проекты быстро и с аккуратной
-            геометрией.
+            Более 2000 м² собственного пространства. Новейшее автоматизированное оборудование. И
+            огромный склад материала — всегда под рукой.
           </p>
 
-          <div class="production-video-placeholder" aria-label="Блок под видео производства">
-            Здесь будет видео
-          </div>
+          <!-- Слот под видео производства. Заполним, когда будет готов финальный ролик. -->
+          <div id="productionVideoSlot" hidden aria-hidden="true"></div>
 
           <div class="production-gallery" aria-label="Фотографии станков">
             <img src="assets/images/production/proizv1.webp" alt="Станок на производстве 1" loading="lazy" decoding="async" fetchpriority="low" />
@@ -362,28 +415,28 @@
           <div class="projects-slider">
             <div class="projects-track" id="projectsTrack" aria-label="Слайдер интерьеров">
               <button class="project-card" type="button" data-project-id="project-1">
-                <img class="project-card__preview" src="assets/images/projects/1.webp" alt="Интерьер Светлая кухня, превью" loading="lazy" decoding="async" fetchpriority="low" />
-                <span class="project-card__title">Светлая кухня</span>
+                <img class="project-card__preview" src="assets/images/projects/1.5.webp" alt="Интерьер Светлая кухня, превью" loading="lazy" decoding="async" fetchpriority="low" />
+                <span class="project-card__title">Кварц Avant<br />цвет Калаката Мон Сен-Мишель</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-2">
-                <img class="project-card__preview" src="assets/images/projects/2.webp" alt="Интерьер Гостиная-столовая, превью" loading="lazy" decoding="async" fetchpriority="low" />
-                <span class="project-card__title">Гостиная-столовая</span>
+                <img class="project-card__preview" src="assets/images/projects/2.1.webp" alt="Интерьер Гостиная-столовая, превью" loading="lazy" decoding="async" fetchpriority="low" />
+                <span class="project-card__title">Кварц Avant<br />цвет 7630 Калаката Венсен</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-3">
-                <img class="project-card__preview" src="assets/images/projects/3.webp" alt="Интерьер Ванная комната, превью" loading="lazy" decoding="async" fetchpriority="low" />
-                <span class="project-card__title">Ванная комната</span>
+                <img class="project-card__preview" src="assets/images/projects/3.1.webp" alt="Интерьер Ванная комната, превью" loading="lazy" decoding="async" fetchpriority="low" />
+                <span class="project-card__title">Керамика Laminam<br />цвет Graphite</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-4">
                 <img class="project-card__preview" src="assets/images/projects/4.webp" alt="Интерьер Классическая кухня, превью" loading="lazy" decoding="async" fetchpriority="low" />
-                <span class="project-card__title">Классическая кухня</span>
+                <span class="project-card__title">Кварц Avant<br />цвет 5750 Калаката Шери</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-5">
-                <img class="project-card__preview" src="assets/images/projects/5.1.webp" alt="Интерьер Кухня в темных тонах, превью" loading="lazy" decoding="async" fetchpriority="low" />
-                <span class="project-card__title">Кухня в темных тонах</span>
+                <img class="project-card__preview" src="assets/images/projects/5.2.webp" alt="Интерьер Кухня в темных тонах, превью" loading="lazy" decoding="async" fetchpriority="low" />
+                <span class="project-card__title">Кварц Avant<br />цвет Калаката Мон Сен-Мишель</span>
               </button>
             </div>
 
@@ -401,14 +454,13 @@
 
       <section class="selection-request-section" id="selection-request">
         <div class="selection-request-section__inner">
-          <h2>Оставить заявку на расчет</h2>
+          <h2>Внешне — одинаково. <span>По цене — по-разному.</span></h2>
           <p class="selection-request-section__desc">
-            У многих производителей есть очень похожие декоры, но они могут значительно отличаться
-            по цене. Наш дизайнер подберет для Вас несколько вариантов и сделает точный расчет по
-            каждому.
+            Мы знаем, у каких производителей похожие декоры стоят дешевле. Наш дизайнер подберёт
+            варианты и посчитает каждый — чтобы вы не переплачивали.
           </p>
 
-          <h3>Подберите самый дешевый вариант цвета!</h3>
+          <h3>Оставить заявку на расчет</h3>
           <form class="express-calc-form selection-request-form" action="#" method="post">
             <label class="express-calc-form__field" for="selectionRequestPhone">
               <img class="express-calc-form__icon" src="assets/icons/phone.svg" alt="" aria-hidden="true" />
@@ -449,6 +501,22 @@
         </div>
       </section>
 
+      <section class="materials-section" id="materials">
+        <div class="materials-section__inner">
+          <h2>Наши материалы</h2>
+          <p class="materials-section__desc">Лучшие бренды. Проверенные материалы. Честная цена.</p>
+
+          <div class="materials-logos" aria-label="Логотипы брендов материалов">
+            <img src="assets/icons/prmiaxlogo.webp" alt="PrimaX" loading="lazy" decoding="async" />
+            <img src="assets/icons/avanatlogo.webp" alt="AvanAT" loading="lazy" decoding="async" />
+            <img src="assets/icons/nobblelogo.webp" alt="Nobble" loading="lazy" decoding="async" />
+            <img src="assets/icons/laminamlogo.webp" alt="Laminam" loading="lazy" decoding="async" />
+            <img src="assets/icons/avantruslogo.webp" alt="Avant Rus" loading="lazy" decoding="async" />
+            <img src="assets/icons/vicostonelogo.webp" alt="Vicostone" loading="lazy" decoding="async" />
+          </div>
+        </div>
+      </section>
+
       <section class="test-drive-section" id="test-drive">
         <div class="test-drive-section__inner">
           <h2>Тест драйв кварца</h2>
@@ -456,6 +524,47 @@
           <div class="test-drive-video-placeholder" aria-label="Блок под видео тест драйва">
             Здесь будет видео
           </div>
+        </div>
+      </section>
+
+      <section class="order-steps-section" id="order-steps">
+        <div class="order-steps-section__inner">
+          <h2>Этапы заказа</h2>
+          <p class="order-steps-section__desc">От первого расчёта до установки — прозрачно, точно и в срок.</p>
+
+          <ol class="order-steps-list" aria-label="Схема этапов заказа">
+            <li class="order-step-card">
+              <span class="order-step-card__icon" aria-hidden="true">
+                <img src="assets/icons/price.svg" alt="" />
+              </span>
+              <h3>Расчет</h3>
+              <p>Быстро и без скрытых платежей.</p>
+            </li>
+
+            <li class="order-step-card">
+              <span class="order-step-card__icon" aria-hidden="true">
+                <img src="assets/icons/measure.svg" alt="" />
+              </span>
+              <h3>Замер</h3>
+              <p>Точно, чтобы столешница встала идеально.</p>
+            </li>
+
+            <li class="order-step-card">
+              <span class="order-step-card__icon" aria-hidden="true">
+                <img src="assets/icons/tool.svg" alt="" />
+              </span>
+              <h3>Изготовление</h3>
+              <p>На новейшем оборудовании с ювелирной точностью.</p>
+            </li>
+
+            <li class="order-step-card">
+              <span class="order-step-card__icon" aria-hidden="true">
+                <img src="assets/icons/warranty.svg" alt="" />
+              </span>
+              <h3>Установка</h3>
+              <p>Аккуратно, с гарантией, под ключ.</p>
+            </li>
+          </ol>
         </div>
       </section>
 
@@ -527,13 +636,9 @@
                   <img class="contacts-card__icon" src="assets/icons/office.svg" alt="" aria-hidden="true" />
                   <h3>Главный офис</h3>
                   <p>
-                    <a
-                      href="https://yandex.ru/maps/?text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%98%D1%81%D0%BA%D1%80%D1%8B%2017%D0%90%2C%20%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%B8%D0%B5%202"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <button class="showroom-map-btn" type="button" data-showroom-id="main-office">
                       Москва, Искры 17а, стр.2.
-                    </a>
+                    </button>
                   </p>
                   <p class="contacts-card__hours">Понедельник-пятница с 10-00 до 18-00</p>
                 </article>
@@ -542,35 +647,23 @@
                   <img class="contacts-card__icon" src="assets/icons/offices.svg" alt="" aria-hidden="true" />
                   <h3>Шоу-румы с образцами</h3>
                   <p>
-                    <a
-                      href="https://yandex.ru/maps/?text=%D0%9C%D0%9E%2C%20%D0%9F%D1%83%D1%88%D0%BA%D0%B8%D0%BD%D0%BE%2C%20%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D0%BE%D0%B0%D1%80%D0%BC%D0%B5%D0%B9%D1%81%D0%BA%D0%BE%D0%B5%20%D1%88%D0%BE%D1%81%D1%81%D0%B5%2C%20101"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <button class="showroom-map-btn" type="button" data-showroom-id="pushkino">
                       МО, Пушкино, Красноармейское шоссе, 101
-                    </a>
+                    </button>
                     <br />
                     <span class="contacts-card__hours">Ежедневно с 10-00 до 21-00</span>
                   </p>
                   <p>
-                    <a
-                      href="https://yandex.ru/maps/?text=%D0%9C%D0%9E%2C%20%D0%98%D1%81%D1%82%D1%80%D0%B0%2C%20%D0%A8%D0%BD%D1%8B%D1%80%D0%B5%D0%B2%D0%B0%2056"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <button class="showroom-map-btn" type="button" data-showroom-id="istra">
                       МО, Истра, Шнырева 56
-                    </a>
+                    </button>
                     <br />
                     <span class="contacts-card__hours">Понедельник-пятница с 10-00 до 18-00</span>
                   </p>
                   <p>
-                    <a
-                      href="https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%A4%D1%83%D1%87%D0%B8%D0%BA%D0%B0%209%2C%20%D0%9A%D1%83%D0%B1%D0%B0%D1%82%D1%83%D1%80%D0%B0%2C%202%20%D1%8D%D1%82%D0%B0%D0%B6%2C%20%D0%9F%D0%B0%D0%B2%D0%B8%D0%BB%D1%8C%D0%BE%D0%BD%202%D0%92.525"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <button class="showroom-map-btn" type="button" data-showroom-id="spb">
                       Санкт-Петербург, ул. Фучика 9, Мебельный центр "Кубатура", 2 этаж, Павильон 2В.525
-                    </a>
+                    </button>
                     <br />
                     <span class="contacts-card__hours">Ежедневно с 10-00 до 22-00</span>
                   </p>
@@ -587,6 +680,10 @@
                 </article>
               </div>
             </div>
+          </div>
+          <div class="showrooms-map-wrap">
+            <h3>Карта оффисов</h3>
+            <div id="showroomsMap" class="showrooms-map" aria-label="Карта шоу-румов"></div>
           </div>
         </div>
       </section>
@@ -690,7 +787,7 @@
       </div>
     </div>
 
-    <script src="app-config.js"></script>
-    <script src="script.js"></script>
+    <script src="app-config.js" defer></script>
+    <script src="script.js" defer></script>
   </body>
 </html>

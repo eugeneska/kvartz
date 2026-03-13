@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
   exit;
 }
 
-const RECAPTCHA_SITE_KEY = "6LfX4YUsAAAAAIr1LEtHhKuF7nWn8hPdLLSe08lV";
+  const RECAPTCHA_SITE_KEY = "6LfX4YUsAAAAAIr1LEtHhKuF7nWn8hPdLLSe08lV";
 const RECAPTCHA_SECRET_KEY = "6LfX4YUsAAAAAMnIeejDrCDQKlFmSms8swZF_keh";
 
 function verifyRecaptcha(string $secret, string $token, string $remoteIp): bool {
@@ -162,7 +162,7 @@ $messageLines[] = "Дата: " . date("Y-m-d H:i:s");
 $message = implode("\n", $messageLines);
 
 $fromHost = $_SERVER["HTTP_HOST"] ?? "localhost";
-$from = "no-reply@" . preg_replace("/:\d+$/", "", $fromHost);
+$from = "zakaz@quartz-x.ru";
 $headers = [
   "MIME-Version: 1.0",
   "Content-Type: text/plain; charset=UTF-8",
