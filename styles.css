@@ -1919,6 +1919,7 @@ input {
 .contacts-section__form-col {
   border: 1px solid #ececec;
   border-radius: 10px;
+  height: 550px;
   padding: 20px;
   margin-top: 0;
   background: #ffffff;
@@ -1941,6 +1942,8 @@ input {
   gap: 10px;
   width: 100%;
   margin: 0;
+  flex: 1;
+  min-height: 0;
 }
 
 .contacts-form .request-field {
@@ -1951,7 +1954,7 @@ input {
 .contacts-form .request-field input,
 .contacts-form .request-field textarea {
   width: 100%;
-  min-height: 58px;
+  min-height: 64px;
   border: 1px solid #ececec;
   border-radius: 0;
   background: #f5f5f6;
@@ -1976,10 +1979,10 @@ input {
 }
 
 .contacts-form .request-field--textarea textarea {
-  padding: 12px 16px;
+  padding: 14px 16px;
   line-height: 1.35;
   resize: vertical;
-  min-height: 88px;
+  min-height: 112px;
 }
 
 .contacts-form__submit {
@@ -2603,7 +2606,7 @@ body.page-entered .side-menu__link:nth-child(7) {
   }
 
   .hero__bg {
-    background-image: url("assets/images/hero/mobile-hero-bg.png");
+    background-image: url("assets/images/hero/mobilehero.jpeg");
     background-position: center center;
   }
 
@@ -2712,8 +2715,13 @@ body.page-entered .side-menu__link:nth-child(7) {
   }
 
   .contacts-section__form-col {
-    padding: 18px;
+    padding: 20px;
     margin-top: 0;
+    height: 550px;
+  }
+
+  .contacts-form {
+    min-height: 0;
   }
 
   .contacts-form__submit {
@@ -2746,7 +2754,7 @@ body.page-entered .side-menu__link:nth-child(7) {
   }
 
   .hero__bg {
-    background-image: url("assets/images/hero/mobile-hero-bg.png");
+    background-image: url("assets/images/hero/mobilehero.jpeg");
     background-position: center center;
   }
 
@@ -3370,5 +3378,26 @@ body.page-entered .side-menu__link:nth-child(7) {
   body.page-entered .side-menu__head,
   body.page-entered .side-menu__link {
     animation: none;
+  }
+}
+
+/* Final contacts form size override (without !important). */
+.contacts-section .contacts-section__form-col {
+  height: 550px;
+  min-height: 550px;
+  padding: 20px;
+  gap: 14px;
+}
+
+.contacts-section .contacts-form {
+  min-height: 0;
+}
+
+@media (max-width: 980px) {
+  .contacts-section .contacts-section__form-col {
+    height: 550px;
+    min-height: 550px;
+    padding: 20px;
+    gap: 14px;
   }
 }
