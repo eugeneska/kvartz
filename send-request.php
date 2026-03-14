@@ -11,8 +11,10 @@ if (!isset($_SERVER["REQUEST_METHOD"]) || $_SERVER["REQUEST_METHOD"] !== "POST")
   exit;
 }
 
-const RECAPTCHA_SITE_KEY = "6LfX4YUsAAAAAIr1LEtHhKuF7nWn8hPdLLSe08lV";
-const RECAPTCHA_SECRET_KEY = "6LfX4YUsAAAAAMnIeejDrCDQKlFmSms8swZF_keh";
+const RECAPTCHA_SITE_KEY = "6LckO4osAAAAAJ2VXjCqIiAB4_0LMM54hbPQ_KPf";
+const RECAPTCHA_SECRET_KEY = "6LckO4osAAAAAIPrW3c8vcmNwPs_L6XLzlI3WOCR";
+const RECAPTCHA_EXPECTED_ACTION = "submit_form";
+const RECAPTCHA_MIN_SCORE = 0.5;
 
 function postValue($key, $defaultValue) {
   if (isset($_POST[$key])) {
@@ -42,7 +44,7 @@ function cleanValue($value) {
   return $singleLine;
 }
 
-function verifyRecaptcha($secret, $token, $remoteIp) {
+function verifyRecaptcha($secret, $token, $remoteIp, $expectedAction, $minScore) {
   if ($secret === "" || $token === "") {
     return false;
   }
@@ -77,7 +79,18 @@ function verifyRecaptcha($secret, $token, $remoteIp) {
     return false;
   }
 
-  return !empty($decoded["success"]);
+  if (empty($decoded["success"])) {
+    return false;
+  }
+
+  $score = isset($decoded["score"]) ? (float) $decoded["score"] : 0.0;
+  $action = isset($decoded["action"]) ? (string) $decoded["action"] : "";
+
+  if ($expectedAction !== "" && $action !== $expectedAction) {
+    return false;
+  }
+
+  return $score >= $minScore;
 }
 
 $recaptchaSecret = RECAPTCHA_SECRET_KEY;
@@ -85,7 +98,13 @@ $recaptchaSecret = RECAPTCHA_SECRET_KEY;
 $recaptchaToken = cleanValue(postValue("g-recaptcha-response", ""));
 $clientIp = cleanValue(serverValue("REMOTE_ADDR", ""));
 
-if (!verifyRecaptcha($recaptchaSecret, $recaptchaToken, $clientIp)) {
+if (!verifyRecaptcha(
+  $recaptchaSecret,
+  $recaptchaToken,
+  $clientIp,
+  RECAPTCHA_EXPECTED_ACTION,
+  RECAPTCHA_MIN_SCORE
+)) {
   http_response_code(422);
   echo json_encode([
     "success" => false,

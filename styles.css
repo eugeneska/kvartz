@@ -299,17 +299,18 @@ input {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: stretch;
-  min-height: 48px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
+  min-height: 44px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
   color: #ffffff;
-  border: 1.5px solid #cf0f2b;
+  border: 1px solid #cf0f2b;
   background: #cf0f2b;
+  overflow: hidden;
   box-shadow: 0 8px 20px rgba(207, 15, 43, 0.24);
   backdrop-filter: none;
-  text-transform: none;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   transition:
     transform 0.25s ease,
     filter 0.25s ease,
@@ -333,13 +334,27 @@ input {
 }
 
 .express-btn__label {
-  min-width: 170px;
+  min-width: 138px;
 }
 
 .express-btn__arrow {
-  min-width: 46px;
-  border-left: 1px solid rgba(255, 255, 255, 0.85);
+  position: relative;
+  min-width: 52px;
   letter-spacing: 0;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+.express-btn__arrow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.85);
+  transform: none;
 }
 
 .express-btn__arrow-icon {
@@ -353,8 +368,8 @@ input {
   transition: transform 0.2s ease;
 }
 
-.express-btn:hover .express-btn__arrow {
-  border-left-color: rgba(255, 255, 255, 0.65);
+.express-btn:hover .express-btn__arrow::before {
+  background: rgba(255, 255, 255, 0.65);
 }
 
 .express-btn:hover .express-btn__arrow-icon {
@@ -389,19 +404,19 @@ input {
 }
 
 .hero__slide-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  min-height: 42px;
-  padding: 10px 16px;
+  display: inline-grid;
+  grid-template-columns: 1fr auto;
+  align-items: stretch;
+  min-height: 44px;
+  padding: 0;
   border-radius: 8px;
+  overflow: hidden;
   color: #ffffff;
   background: #cf0f2b;
-  font-size: clamp(16px, 1.35vw, 20px);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   border: 1px solid #cf0f2b;
   text-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
   transition:
@@ -418,13 +433,44 @@ input {
 }
 
 .hero__slide-link .express-btn__arrow-icon {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   transform: translateY(0);
+}
+
+.hero__slide-link-text,
+.hero__slide-link-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+}
+
+.hero__slide-link-arrow {
+  position: relative;
+  min-width: 52px;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+.hero__slide-link-arrow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.85);
+  transform: none;
 }
 
 .hero__slide-link:hover .express-btn__arrow-icon {
   transform: translate(2px, 0);
+}
+
+.hero__slide-link:hover .hero__slide-link-arrow::before {
+  background: rgba(255, 255, 255, 0.65);
 }
 
 .hero__scroll-cue {
@@ -530,7 +576,7 @@ input {
 .express-calc-form__submit {
   margin-top: 18px;
   min-height: 56px;
-  width: min(100%, 320px);
+  width: min(100%, 260px);
   border: 1px solid #cf0f2b;
   border-radius: 999px;
   background: #cf0f2b;
@@ -742,7 +788,7 @@ input {
   justify-self: center;
   margin-top: 8px;
   min-height: 56px;
-  width: min(100%, 320px);
+  width: min(100%, 260px);
   border: 1px solid #cf0f2b;
   border-radius: 999px;
   background: #cf0f2b;
@@ -1032,7 +1078,7 @@ input {
   justify-self: center;
   margin-top: 8px;
   min-height: 56px;
-  width: min(100%, 320px);
+  width: min(100%, 260px);
   border: 1px solid #cf0f2b;
   border-radius: 999px;
   background: #cf0f2b;
@@ -1938,7 +1984,7 @@ input {
 
 .contacts-form__submit {
   min-height: 56px;
-  width: min(100%, 320px);
+  width: min(100%, 260px);
   align-self: center;
   border: 1px solid #cf0f2b;
   border-radius: 999px;
@@ -1965,11 +2011,17 @@ input {
 .promo-request-form button,
 .contacts-form__submit {
   border: 1px solid #cf0f2b;
-  border-radius: 999px;
+  border-radius: 8px;
   background: #cf0f2b;
   color: #fff;
   font-family: inherit;
-  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  min-height: 44px;
+  padding: 0 14px;
   box-shadow: 0 8px 20px rgba(207, 15, 43, 0.24);
   transition:
     transform 0.2s ease,
@@ -2010,6 +2062,14 @@ input {
 .contacts-form__submit:focus-visible {
   outline: 2px solid rgba(207, 15, 43, 0.35);
   outline-offset: 2px;
+}
+
+/* Outside hero keep CTA width visually shorter. */
+.express-calc-form__submit,
+.colors-request-form button,
+.promo-request-form button,
+.contacts-form__submit {
+  padding: 0 12px;
 }
 
 .contacts-cards {
@@ -2600,7 +2660,7 @@ body.page-entered .side-menu__link:nth-child(7) {
 
   .hero__slide-link {
     justify-content: center;
-    min-height: 38px;
+    min-height: 44px;
   }
 
   .hero__scroll-cue {
@@ -2779,7 +2839,7 @@ body.page-entered .side-menu__link:nth-child(7) {
     margin: 0;
     line-height: 1.06;
     max-width: 100%;
-    text-transform: none;
+    text-transform: uppercase;
     font-weight: 800;
     text-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
   }
@@ -2787,17 +2847,17 @@ body.page-entered .side-menu__link:nth-child(7) {
   .hero__slide-link {
     margin-top: 45px;
     width: 100%;
-    min-height: 52px;
+    min-height: 44px;
     justify-content: center;
     border: 0;
-    border-radius: 999px;
+    border-radius: 8px;
     background: #cf0f2b;
     color: #fff;
-    font-size: 17px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.08em;
     text-shadow: none;
-    text-transform: none;
+    text-transform: uppercase;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
   }
 
@@ -2928,15 +2988,15 @@ body.page-entered .side-menu__link:nth-child(7) {
   .mobile-nav__cta {
     margin-top: 24px;
     width: 100%;
-    min-height: 48px;
+    min-height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     background: #cf0f2b;
     color: #fff;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
   }
 
   .mobile-nav__contacts {
@@ -2980,7 +3040,7 @@ body.page-entered .side-menu__link:nth-child(7) {
 
   .express-calc-form__submit {
     width: 100%;
-    font-size: 20px;
+    font-size: 13px;
   }
 
   .express-calc-section__contact {

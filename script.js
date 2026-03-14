@@ -71,6 +71,8 @@ const mobileHeroMedia = window.matchMedia("(max-width: 640px)");
 const mobileHeroBackgroundMedia = window.matchMedia("(max-width: 980px)");
 const recaptchaSiteKey = window.APP_CONFIG?.RECAPTCHA_SITE_KEY || "";
 const recaptchaEnabled = Boolean(recaptchaSiteKey);
+const RECAPTCHA_ACTION = "submit_form";
+let recaptchaReady = false;
 const formCaptchaState = new Map();
 
 const colorsCatalog = [
@@ -641,31 +643,20 @@ async function initShowroomsMap() {
 }
 
 function addCaptchaToForms() {
-  forms.forEach((form, index) => {
-    const captchaWrap = document.createElement("div");
-    captchaWrap.className = "form-captcha";
-
-    const captchaNode = document.createElement("div");
-    captchaNode.className = "g-recaptcha";
-    captchaNode.id = `g-recaptcha-form-${index + 1}`;
-    captchaWrap.appendChild(captchaNode);
-
+  forms.forEach((form) => {
     const errorNode = document.createElement("p");
     errorNode.className = "form-captcha__error";
     errorNode.setAttribute("aria-live", "polite");
+    errorNode.setAttribute("role", "status");
 
     const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
     if (submitButton) {
-      form.insertBefore(captchaWrap, submitButton);
       form.insertBefore(errorNode, submitButton);
     } else {
-      form.appendChild(captchaWrap);
       form.appendChild(errorNode);
     }
 
     formCaptchaState.set(form, {
-      containerId: captchaNode.id,
-      widgetId: null,
       errorNode,
     });
   });
@@ -678,66 +669,72 @@ function setCaptchaError(form, message) {
 }
 
 function loadRecaptchaScript() {
-  if (window.grecaptcha?.render) {
+  if (window.grecaptcha?.execute) {
     return Promise.resolve();
   }
 
   return new Promise((resolve, reject) => {
-    window.__onRecaptchaLoaded = () => resolve();
-
     const script = document.createElement("script");
-    script.src = "https://www.google.com/recaptcha/api.js?onload=__onRecaptchaLoaded&render=explicit";
+    script.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(recaptchaSiteKey)}`;
     script.async = true;
     script.defer = true;
+    script.onload = () => resolve();
     script.onerror = () => reject(new Error("Не удалось загрузить Google reCAPTCHA."));
     document.head.appendChild(script);
   });
 }
 
 async function initRecaptcha() {
+  addCaptchaToForms();
+
   if (!recaptchaEnabled) {
     console.warn("reCAPTCHA отключена: не задан RECAPTCHA_SITE_KEY в app-config.js");
     return;
   }
 
-  addCaptchaToForms();
-
   try {
     await loadRecaptchaScript();
+    await new Promise((resolve) => {
+      if (window.grecaptcha?.ready) {
+        window.grecaptcha.ready(resolve);
+      } else {
+        resolve();
+      }
+    });
+    recaptchaReady = true;
   } catch (error) {
     console.error(error);
     forms.forEach((form) => {
       setCaptchaError(form, "Не удалось загрузить капчу. Проверьте подключение к Google.");
     });
-    return;
   }
-
-  forms.forEach((form) => {
-    const state = formCaptchaState.get(form);
-    if (!state || !window.grecaptcha?.render) return;
-    state.widgetId = window.grecaptcha.render(state.containerId, {
-      sitekey: recaptchaSiteKey,
-    });
-  });
 }
 
-function validateFormCaptcha(form) {
-  if (!recaptchaEnabled) return true;
+async function resolveRecaptchaToken(form) {
+  if (!recaptchaEnabled) return "";
 
-  const state = formCaptchaState.get(form);
-  if (!state || state.widgetId === null || !window.grecaptcha?.getResponse) {
+  if (!recaptchaReady || !window.grecaptcha?.execute) {
     setCaptchaError(form, "Капча еще загружается. Попробуйте через пару секунд.");
-    return false;
+    return null;
   }
 
-  const response = window.grecaptcha.getResponse(state.widgetId);
-  if (!response) {
-    setCaptchaError(form, "Подтвердите, что вы не робот.");
-    return false;
-  }
+  try {
+    const token = await window.grecaptcha.execute(recaptchaSiteKey, {
+      action: RECAPTCHA_ACTION,
+    });
 
-  setCaptchaError(form, "");
-  return true;
+    if (!token) {
+      setCaptchaError(form, "Не удалось получить токен капчи. Попробуйте еще раз.");
+      return null;
+    }
+
+    setCaptchaError(form, "");
+    return token;
+  } catch (error) {
+    console.error(error);
+    setCaptchaError(form, "Ошибка проверки капчи. Попробуйте еще раз.");
+    return null;
+  }
 }
 
 function validateFormConsent(form) {
@@ -762,13 +759,10 @@ function validateFormSubmission(form) {
     return false;
   }
 
-  return validateFormCaptcha(form);
+  return true;
 }
 
 function resetFormCaptcha(form) {
-  const state = formCaptchaState.get(form);
-  if (!state || state.widgetId === null || !window.grecaptcha?.reset) return;
-  window.grecaptcha.reset(state.widgetId);
   setCaptchaError(form, "");
 }
 
@@ -836,12 +830,15 @@ function getFormMeta(form) {
   };
 }
 
-async function submitForm(form) {
+async function submitForm(form, recaptchaToken = "") {
   const formMeta = getFormMeta(form);
   const formData = new FormData(form);
   formData.append("form_type", formMeta.type);
   formData.append("form_name", formMeta.name);
   formData.append("page_url", window.location.href);
+  if (recaptchaEnabled) {
+    formData.append("g-recaptcha-response", recaptchaToken);
+  }
 
   const response = await fetch(FORM_ENDPOINT, {
     method: "POST",
@@ -866,7 +863,11 @@ function setupFormSubmitHandlers() {
       setFormSubmitting(form, true);
 
       try {
-        await submitForm(form);
+        const recaptchaToken = await resolveRecaptchaToken(form);
+        if (recaptchaEnabled && !recaptchaToken) {
+          return;
+        }
+        await submitForm(form, recaptchaToken || "");
         form.reset();
         resetFormCaptcha(form);
         if (colorsRequestNotice) colorsRequestNotice.textContent = "";
