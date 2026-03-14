@@ -2790,7 +2790,7 @@ body.page-entered .side-menu__link:nth-child(7) {
     min-height: 52px;
     justify-content: center;
     border: 0;
-    border-radius: 0;
+    border-radius: 999px;
     background: #cf0f2b;
     color: #fff;
     font-size: 17px;
