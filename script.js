@@ -18,7 +18,7 @@ const slides = [
     image: "assets/images/hero/back3.webp",
     text: "Рассчитать стоимость!",
     actionText: "Оставить заявку",
-    href: "#request-calc",
+    href: "#order-steps",
   },
   {
     image: "assets/images/hero/back4.webp",

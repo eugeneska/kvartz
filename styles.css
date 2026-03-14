@@ -40,6 +40,10 @@ html {
   scroll-behavior: smooth;
 }
 
+:root {
+  --media-radius: 12px;
+}
+
 body {
   margin: 0;
   font-family: "LatoLocal", "Lato", sans-serif;
@@ -295,17 +299,17 @@ input {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: stretch;
-  min-height: 46px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 700;
+  min-height: 48px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
   color: #ffffff;
   border: 1.5px solid #cf0f2b;
   background: #cf0f2b;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 8px 20px rgba(207, 15, 43, 0.24);
   backdrop-filter: none;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  text-transform: none;
+  letter-spacing: 0.02em;
   transition:
     transform 0.25s ease,
     filter 0.25s ease,
@@ -396,9 +400,9 @@ input {
   background: #cf0f2b;
   font-size: clamp(16px, 1.35vw, 20px);
   font-weight: 600;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  border: 1px solid rgba(255, 255, 255, 0.52);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  border: 1px solid #cf0f2b;
   text-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
   transition:
     transform 0.2s ease,
@@ -516,6 +520,7 @@ input {
   color: #606060;
   font-size: 16px;
   font-family: inherit;
+  text-align: left;
 }
 
 .express-calc-form__field input::placeholder {
@@ -719,7 +724,7 @@ input {
   background: #f5f5f6;
   color: #4a4a4a;
   font-size: 16px;
-  text-align: center;
+  text-align: left;
   outline: none;
 }
 
@@ -790,7 +795,7 @@ input {
   display: block;
   width: min(100%, 520px);
   margin: 0 auto 20px;
-  border-radius: 10px;
+  border-radius: var(--media-radius);
   border: 1px solid #ececec;
   object-fit: cover;
 }
@@ -805,7 +810,7 @@ input {
   position: relative;
   padding: 0;
   border: 1px solid #ececec;
-  border-radius: 6px;
+  border-radius: var(--media-radius);
   background: #fff;
   cursor: pointer;
   overflow: hidden;
@@ -909,6 +914,7 @@ input {
   object-position: center center;
   display: block;
   border: 0;
+  border-radius: var(--media-radius);
   box-shadow: none;
   background: transparent;
 }
@@ -1013,7 +1019,7 @@ input {
   background: #f5f5f6;
   color: #4a4a4a;
   font-size: 16px;
-  text-align: center;
+  text-align: left;
 }
 
 .promo-request-form .express-calc-form__field input:focus {
@@ -1159,7 +1165,7 @@ input {
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--media-radius);
   border: 1px solid #ececec;
   display: block;
 }
@@ -1266,8 +1272,10 @@ input {
   border: 0;
   margin: 0;
   padding: 0;
+  border-radius: var(--media-radius);
   background: #ebebeb;
   cursor: pointer;
+  overflow: hidden;
   text-align: left;
   scroll-snap-align: start;
   transition: transform 0.2s ease, box-shadow 0.24s ease, filter 0.24s ease;
@@ -1376,6 +1384,7 @@ input {
   object-position: center center;
   display: block;
   border: 0;
+  border-radius: var(--media-radius);
   box-shadow: none;
   background: transparent;
 }
@@ -1904,7 +1913,7 @@ input {
   font-family: inherit;
   font-size: 16px;
   color: #4a4a4a;
-  text-align: center;
+  text-align: left;
   outline: none;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
@@ -1945,6 +1954,62 @@ input {
 .contacts-form__submit:hover {
   transform: translateY(-1px);
   filter: brightness(1.04);
+}
+
+/* Unified visual style for primary CTA buttons across sections. */
+.express-btn,
+.hero__slide-link,
+.mobile-nav__cta,
+.express-calc-form__submit,
+.colors-request-form button,
+.promo-request-form button,
+.contacts-form__submit {
+  border: 1px solid #cf0f2b;
+  border-radius: 999px;
+  background: #cf0f2b;
+  color: #fff;
+  font-family: inherit;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(207, 15, 43, 0.24);
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.express-btn:hover,
+.hero__slide-link:hover,
+.mobile-nav__cta:hover,
+.express-calc-form__submit:hover,
+.colors-request-form button:hover,
+.promo-request-form button:hover,
+.contacts-form__submit:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  border-color: #b20d25;
+  background-color: #b20d25;
+}
+
+.express-btn:active,
+.hero__slide-link:active,
+.mobile-nav__cta:active,
+.express-calc-form__submit:active,
+.colors-request-form button:active,
+.promo-request-form button:active,
+.contacts-form__submit:active {
+  transform: translateY(0);
+}
+
+.express-btn:focus-visible,
+.hero__slide-link:focus-visible,
+.mobile-nav__cta:focus-visible,
+.express-calc-form__submit:focus-visible,
+.colors-request-form button:focus-visible,
+.promo-request-form button:focus-visible,
+.contacts-form__submit:focus-visible {
+  outline: 2px solid rgba(207, 15, 43, 0.35);
+  outline-offset: 2px;
 }
 
 .contacts-cards {
@@ -3115,6 +3180,22 @@ body.page-entered .side-menu__link:nth-child(7) {
 
   .contacts-cards {
     grid-template-columns: 1fr;
+  }
+
+  .contacts-cards .contacts-card:nth-child(1) {
+    order: 1;
+  }
+
+  .contacts-cards .contacts-card:nth-child(4) {
+    order: 2;
+  }
+
+  .contacts-cards .contacts-card:nth-child(2) {
+    order: 3;
+  }
+
+  .contacts-cards .contacts-card:nth-child(3) {
+    order: 4;
   }
 
   .contacts-card h3 {
