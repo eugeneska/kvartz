@@ -190,6 +190,7 @@
             </span>
           </a>
         </div>
+        <p class="hero__slide-material" id="slideMaterial" hidden></p>
 
         <a class="hero__scroll-cue" href="#express-calc" aria-label="Прокрутить к блоку Экспресс расчет">
           <svg viewBox="0 0 24 24">
@@ -276,7 +277,7 @@
             <p class="colors-home__desc">Бесплатный выезд с образцами по Москве и области</p>
             <img
               class="colors-home__image"
-              src="assets/images/hero/back2.webp"
+              src="assets/images/hero/kameshki.webp"
               alt="Выезд с образцами на дом"
               loading="lazy"
               decoding="async"
@@ -284,6 +285,7 @@
             />
 
             <div class="colors-request">
+              <h4 class="colors-request__title">Заказать доставку образцов</h4>
               <p class="request-required-note">* Обязательное поле</p>
               <form class="colors-request-form" id="colorsRequestForm" action="#" method="post">
                 <label class="request-field request-field--full">
@@ -419,29 +421,39 @@
 
           <div class="projects-slider">
             <div class="projects-track" id="projectsTrack" aria-label="Слайдер интерьеров">
-              <button class="project-card" type="button" data-project-id="project-1">
-                <img class="project-card__preview" src="assets/images/projects/1.5.webp" alt="Интерьер Светлая кухня, превью" loading="lazy" decoding="async" fetchpriority="low" />
-                <span class="project-card__title">Кварц Avant<br />цвет Калаката Мон Сен-Мишель</span>
+              <button class="project-card" type="button" data-project-id="project-4">
+                <img class="project-card__preview" src="assets/images/projects/4.webp" alt="Интерьер Классическая кухня, превью" loading="lazy" decoding="async" fetchpriority="low" />
+                <span class="project-card__title">Кварц Avant,<br />цвет 5750 Калакатта Шери.</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-2">
                 <img class="project-card__preview" src="assets/images/projects/2.1.webp" alt="Интерьер Гостиная-столовая, превью" loading="lazy" decoding="async" fetchpriority="low" />
-                <span class="project-card__title">Кварц Avant<br />цвет 7630 Калаката Венсен</span>
+                <span class="project-card__title">Кварц Avant,<br />цвет 7630 Калакатта Венсен.</span>
               </button>
 
-              <button class="project-card" type="button" data-project-id="project-3">
-                <img class="project-card__preview" src="assets/images/projects/3.1.webp" alt="Интерьер Ванная комната, превью" loading="lazy" decoding="async" fetchpriority="low" />
-                <span class="project-card__title">Керамика Laminam<br />цвет Graphite</span>
-              </button>
-
-              <button class="project-card" type="button" data-project-id="project-4">
-                <img class="project-card__preview" src="assets/images/projects/4.webp" alt="Интерьер Классическая кухня, превью" loading="lazy" decoding="async" fetchpriority="low" />
-                <span class="project-card__title">Кварц Avant<br />цвет 5750 Калаката Шери</span>
+              <button class="project-card" type="button" data-project-id="project-6">
+                <img class="project-card__preview" src="assets/images/projects/6.webp" alt="Интерьер Загородный дом, превью" loading="lazy" decoding="async" fetchpriority="low" />
+                <span class="project-card__title">Кварц Primax,<br />цвет 748 Calacatta Grigio.</span>
               </button>
 
               <button class="project-card" type="button" data-project-id="project-5">
                 <img class="project-card__preview" src="assets/images/projects/5.2.webp" alt="Интерьер Кухня в темных тонах, превью" loading="lazy" decoding="async" fetchpriority="low" />
-                <span class="project-card__title">Кварц Avant<br />цвет Калаката Мон Сен-Мишель</span>
+                <span class="project-card__title">Кварц Avant,<br />цвет Калакатта Мон Сен-Мишель.</span>
+              </button>
+
+              <button class="project-card" type="button" data-project-id="project-3">
+                <img class="project-card__preview" src="assets/images/projects/3.1.webp" alt="Интерьер Ванная комната, превью" loading="lazy" decoding="async" fetchpriority="low" />
+                <span class="project-card__title">Керамика Laminam,<br />цвет Graphite.</span>
+              </button>
+
+              <button class="project-card" type="button" data-project-id="project-7">
+                <img class="project-card__preview" src="assets/images/projects/7.1.webp" alt="Интерьер Пентхаус, превью" loading="lazy" decoding="async" fetchpriority="low" />
+                <span class="project-card__title">Кварц Primax,<br />цвет 335 Tiffani Blue.</span>
+              </button>
+
+              <button class="project-card" type="button" data-project-id="project-1">
+                <img class="project-card__preview" src="assets/images/projects/1.5.webp" alt="Интерьер Светлая кухня, превью" loading="lazy" decoding="async" fetchpriority="low" />
+                <span class="project-card__title">Кварц Avant,<br />цвет Калакатта Мон Сен-Мишель.</span>
               </button>
             </div>
 
@@ -466,7 +478,7 @@
           </p>
 
           <h3>Оставить заявку на расчет</h3>
-          <form class="express-calc-form selection-request-form" action="#" method="post">
+          <form class="express-calc-form selection-request-form" id="selectionRequestForm" action="#" method="post">
             <label class="express-calc-form__field" for="selectionRequestPhone">
               <img class="express-calc-form__icon" src="assets/icons/phone.svg" alt="" aria-hidden="true" />
               <input
@@ -494,14 +506,58 @@
       <section class="certificates-section" id="certificates">
         <div class="certificates-section__inner">
           <h2>Сертификаты</h2>
-          <p class="certificates-section__desc">
-            Здесь будут размещены фотографии сертификатов на материалы и производство.
-          </p>
-
-          <div class="certificates-placeholder-grid" aria-label="Галерея сертификатов">
-            <div class="certificates-placeholder-card">Фото сертификата 1</div>
-            <div class="certificates-placeholder-card">Фото сертификата 2</div>
-            <div class="certificates-placeholder-card">Фото сертификата 3</div>
+          <div class="certificates-slider" aria-label="Галерея сертификатов">
+            <div class="certificates-track" id="certificatesTrack">
+              <button
+                class="certificate-card"
+                type="button"
+                data-certificate-images="assets/images/sertificats/1sert.webp"
+              >
+                <img class="certificate-card__preview" src="assets/images/sertificats/1sert.webp" alt="Сертификат QuartzX 1" loading="lazy" decoding="async" fetchpriority="low" />
+              </button>
+              <button
+                class="certificate-card"
+                type="button"
+                data-certificate-images="assets/images/sertificats/2.webp,assets/images/sertificats/2.1.webp,assets/images/sertificats/2.2.webp"
+              >
+                <img class="certificate-card__preview" src="assets/images/sertificats/2.webp" alt="Сертификат QuartzX 2" loading="lazy" decoding="async" fetchpriority="low" />
+              </button>
+              <button
+                class="certificate-card"
+                type="button"
+                data-certificate-images="assets/images/sertificats/3.webp"
+              >
+                <img class="certificate-card__preview" src="assets/images/sertificats/3.webp" alt="Сертификат QuartzX 3" loading="lazy" decoding="async" fetchpriority="low" />
+              </button>
+              <button
+                class="certificate-card"
+                type="button"
+                data-certificate-images="assets/images/sertificats/4.webp,assets/images/sertificats/4.1.webp,assets/images/sertificats/4.2.webp"
+              >
+                <img class="certificate-card__preview" src="assets/images/sertificats/4.webp" alt="Сертификат QuartzX 4" loading="lazy" decoding="async" fetchpriority="low" />
+              </button>
+              <button
+                class="certificate-card"
+                type="button"
+                data-certificate-images="assets/images/sertificats/5.webp"
+              >
+                <img class="certificate-card__preview" src="assets/images/sertificats/5.webp" alt="Сертификат QuartzX 5" loading="lazy" decoding="async" fetchpriority="low" />
+              </button>
+              <button
+                class="certificate-card"
+                type="button"
+                data-certificate-images="assets/images/sertificats/6.webp"
+              >
+                <img class="certificate-card__preview" src="assets/images/sertificats/6.webp" alt="Сертификат QuartzX 6" loading="lazy" decoding="async" fetchpriority="low" />
+              </button>
+              <button
+                class="certificate-card"
+                type="button"
+                data-certificate-images="assets/images/sertificats/7.webp,assets/images/sertificats/7.1.webp,assets/images/sertificats/7.2.webp"
+              >
+                <img class="certificate-card__preview" src="assets/images/sertificats/7.webp" alt="Сертификат QuartzX 7" loading="lazy" decoding="async" fetchpriority="low" />
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -617,11 +673,11 @@
 
             <div class="contacts-section__info-col">
               <div class="contacts-cards">
-                <article class="contacts-card">
+                <article class="contacts-card contacts-card--compact">
                   <img class="contacts-card__icon contacts-card__icon--phone" src="assets/icons/phone.svg" alt="" aria-hidden="true" />
-                  <h3>Телефон и мессенджеры</h3>
+                  <h3>Москва<br />Санкт-Петербург</h3>
                   <p>
-                    <a href="tel:+74957245256">+74957245256</a>
+                    <a href="tel:+79037245256">+7 903 724 52 56</a>
                   </p>
                   <p class="contacts-card__messengers">
                     <a href="https://t.me" target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram">
@@ -634,18 +690,27 @@
                       <img src="assets/icons/maxs.svg" alt="Max" />
                     </a>
                   </p>
-                  <p><a href="mailto:zakaz1@lumixa.ru">zakaz1@lumixa.ru</a></p>
+                  <p><a href="mailto:zakaz@quartz-x.ru">zakaz@quartz-x.ru</a></p>
                 </article>
 
-                <article class="contacts-card">
-                  <img class="contacts-card__icon" src="assets/icons/office.svg" alt="" aria-hidden="true" />
-                  <h3>Главный офис</h3>
+                <article class="contacts-card contacts-card--compact">
+                  <img class="contacts-card__icon" src="assets/icons/manager.svg" alt="" aria-hidden="true" />
+                  <h3>Выездной менеджер-дизайнер</h3>
                   <p>
-                    <button class="showroom-map-btn" type="button" data-showroom-id="main-office">
-                      Москва, Искры 17а, стр.2.
-                    </button>
+                    <a href="tel:+79199608786">+7 919 960 87 86</a>
                   </p>
-                  <p class="contacts-card__hours">Понедельник-пятница с 10-00 до 18-00</p>
+                  <p class="contacts-card__messengers">
+                    <a href="https://t.me" target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram">
+                      <img src="assets/icons/tg.svg" alt="Telegram" />
+                    </a>
+                    <a href="https://wa.me/79199608786" target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp">
+                      <img class="whatsapp-icon--green" src="assets/icons/whatsapp.svg" alt="WhatsApp" />
+                    </a>
+                    <a href="https://max.ru" target="_blank" rel="noopener noreferrer" aria-label="Написать в Max">
+                      <img src="assets/icons/maxs.svg" alt="Max" />
+                    </a>
+                  </p>
+                  <p class="contacts-card__hours">Ежедневно с 9 до 21</p>
                 </article>
 
                 <article class="contacts-card">
@@ -655,33 +720,49 @@
                     <button class="showroom-map-btn" type="button" data-showroom-id="pushkino">
                       МО, Пушкино, Красноармейское шоссе, 101
                     </button>
-                    <br />
+                    <span class="contacts-card__address-extra">Мебельный центр "Пеликан"</span>
                     <span class="contacts-card__hours">Ежедневно с 10-00 до 21-00</span>
                   </p>
                   <p>
-                    <button class="showroom-map-btn" type="button" data-showroom-id="istra">
-                      МО, Истра, Шнырева 56
-                    </button>
-                    <br />
-                    <span class="contacts-card__hours">Понедельник-пятница с 10-00 до 18-00</span>
+                    <a href="tel:+79916482198">+7 991 648 21 98</a>
+                  </p>
+                  <p class="contacts-card__messengers">
+                    <a href="https://t.me" target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram">
+                      <img src="assets/icons/tg.svg" alt="Telegram" />
+                    </a>
+                    <a href="https://wa.me/79916482198" target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp">
+                      <img class="whatsapp-icon--green" src="assets/icons/whatsapp.svg" alt="WhatsApp" />
+                    </a>
+                    <a href="https://max.ru" target="_blank" rel="noopener noreferrer" aria-label="Написать в Max">
+                      <img src="assets/icons/maxs.svg" alt="Max" />
+                    </a>
                   </p>
                   <p>
                     <button class="showroom-map-btn" type="button" data-showroom-id="spb">
-                      Санкт-Петербург, ул. Фучика 9, Мебельный центр "Кубатура", 2 этаж, Павильон 2В.525
+                      Санкт-Петербург, ул. Фучика 9
                     </button>
-                    <br />
+                    <span class="contacts-card__address-extra">Мебельный центр "Кубатура", 2 этаж, павильон 2В.525</span>
                     <span class="contacts-card__hours">Ежедневно с 10-00 до 22-00</span>
                   </p>
+                  <p><a href="tel:+79062497434">+7 906 249 74 34</a></p>
                 </article>
 
                 <article class="contacts-card">
-                  <img class="contacts-card__icon" src="assets/icons/manager.svg" alt="" aria-hidden="true" />
-                  <h3>Выездной менеджер</h3>
-                  <p>Москва и Московская область</p>
+                  <img class="contacts-card__icon" src="assets/icons/office.svg" alt="" aria-hidden="true" />
+                  <h3>Офис продаж</h3>
                   <p>
-                    <a href="tel:+79199608786">+79199608786</a>
-                    <span class="contacts-card__hours">ежедневно с 9 до 21</span>
+                    <button class="showroom-map-btn" type="button" data-showroom-id="main-office">
+                      Москва, Искры 17а, стр.2., бизнес центр "ЛИНИЯ"
+                    </button>
                   </p>
+                  <p class="contacts-card__hours">Понедельник-пятница с 10-00 до 18-00</p>
+                  <p><span class="contacts-card__section-title">Производство</span></p>
+                  <p>
+                    <button class="showroom-map-btn" type="button" data-showroom-id="istra">
+                      Московская область, г. Истра, ул. Маяковского 15
+                    </button>
+                  </p>
+                  <p class="contacts-card__hours">Понедельник-пятница с 10-00 до 18-00</p>
                 </article>
               </div>
             </div>
@@ -740,7 +821,7 @@
 
         <div class="site-footer__contacts">
           <a href="tel:+74957245256">+7 495 724-52-56</a>
-          <a href="mailto:zakaz1@lumixa.ru">zakaz1@lumixa.ru</a>
+          <a href="mailto:zakaz@quartz-x.ru">zakaz@quartz-x.ru</a>
         </div>
       </div>
 
@@ -783,6 +864,25 @@
       </div>
     </div>
 
+    <div class="certificate-modal" id="certificateModal" aria-hidden="true">
+      <button class="certificate-modal__backdrop" type="button" aria-label="Закрыть окно"></button>
+      <div class="certificate-modal__dialog" role="dialog" aria-modal="true" aria-label="Просмотр сертификата">
+        <button class="certificate-modal__close" type="button" aria-label="Закрыть">×</button>
+
+        <div class="certificate-modal__slider">
+          <button class="certificate-modal__nav certificate-modal__nav--prev" type="button" aria-label="Предыдущий сертификат">
+            <span aria-hidden="true">‹</span>
+          </button>
+          <img class="certificate-modal__image" id="certificateModalImage" src="" alt="" />
+          <button class="certificate-modal__nav certificate-modal__nav--next" type="button" aria-label="Следующий сертификат">
+            <span aria-hidden="true">›</span>
+          </button>
+        </div>
+
+        <p class="certificate-modal__counter" id="certificateModalCounter"></p>
+      </div>
+    </div>
+
     <div class="thanks-modal" id="thanksModal" aria-hidden="true">
       <button class="thanks-modal__backdrop" type="button" aria-label="Закрыть окно"></button>
       <div class="thanks-modal__dialog" role="dialog" aria-modal="true" aria-label="Заявка отправлена">
@@ -793,6 +893,6 @@
     </div>
 
     <script src="app-config.js" defer></script>
-    <script src="script.js?v=20260313-2" defer></script>
+    <script src="script.js?v=20260316-3" defer></script>
   </body>
 </html>
