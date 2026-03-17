@@ -764,7 +764,7 @@ async function focusShowroomOnMap(showroomId) {
 }
 
 function getDefaultShowroom() {
-  return showrooms.pushkino || Object.values(showrooms)[0] || null;
+  return showrooms["main-office"] || Object.values(showrooms)[0] || null;
 }
 
 function loadYandexMapsApi() {
