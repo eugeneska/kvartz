@@ -131,8 +131,8 @@ if ($phone === "") {
 }
 
 $emails = [
-  "zhenya.brest@gmail.com",
-  "skachkov_evgenij@list.ru",
+  "zakaz@levoni.ru",
+  "k.evgeny.155@gmail.com",
 ];
 
 $subjectByType = [
