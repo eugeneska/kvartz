@@ -747,6 +747,7 @@ input {
 
 .colors-request__title {
   margin: 0 0 10px;
+  scroll-margin-top: 13px;
   text-align: center;
   font-size: 28px;
   font-weight: 600;
@@ -1336,11 +1337,11 @@ input {
 
 .projects-slider__controls {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   gap: 8px;
   margin-top: 18px;
-  padding-right: 35px;
+  padding-right: 0;
 }
 
 .project-card {
@@ -3696,7 +3697,7 @@ body.page-entered .side-menu__link:nth-child(7) {
 
   .projects-slider__controls {
     margin-top: 14px;
-    padding-right: 34px;
+    padding-right: 0;
   }
 
   .form-captcha {

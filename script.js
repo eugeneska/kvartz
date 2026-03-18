@@ -21,7 +21,7 @@ const slides = [
     mobileText: "700+ оттенков в наличии.\nС образцами на дом -\nбесплатно!",
     materialCaption: "Кварц Avant, цвет 5750 Калакатта Шери",
     actionText: "Заказать доставку образцов",
-    href: "#colorsRequestForm",
+    href: "#colors-request-title",
   },
   {
     image: "assets/images/hero/back4.webp",
@@ -360,7 +360,10 @@ function setupHeroSlideActionLink() {
     }
 
     event.preventDefault();
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    const shouldCenterColorsRequest = href === "#colors-request-title";
+    const scrollTarget = shouldCenterColorsRequest ? target.closest(".colors-request") || target : target;
+    const scrollBlock = shouldCenterColorsRequest ? "center" : "start";
+    scrollTarget.scrollIntoView({ behavior: "smooth", block: scrollBlock });
     if (window.location.hash !== href) {
       history.replaceState(null, "", href);
     }
