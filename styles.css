@@ -3049,9 +3049,9 @@ body.page-entered .side-menu__link:nth-child(7) {
   .hero__overlay {
     background: linear-gradient(
       180deg,
-      rgba(21, 13, 8, 0.22) 0%,
-      rgba(36, 23, 14, 0.36) 42%,
-      rgba(20, 12, 7, 0.64) 100%
+      rgba(21, 13, 8, 0.08) 0%,
+      rgba(36, 23, 14, 0.16) 42%,
+      rgba(20, 12, 7, 0.28) 100%
     );
   }
 
@@ -3101,7 +3101,7 @@ body.page-entered .side-menu__link:nth-child(7) {
     position: absolute;
     left: 16px;
     right: 16px;
-    top: calc(max(14px, env(safe-area-inset-top)) + 108px);
+    top: calc(max(14px, env(safe-area-inset-top)) + 88px);
     z-index: 3;
     display: flex;
     flex-direction: column;
@@ -3154,7 +3154,7 @@ body.page-entered .side-menu__link:nth-child(7) {
     position: absolute;
     left: 16px;
     right: 16px;
-    top: 58%;
+    top: 64%;
     z-index: 3;
     display: flex;
     flex-direction: column;
@@ -3302,7 +3302,7 @@ body.page-entered .side-menu__link:nth-child(7) {
   }
 
   .hero__scroll-cue {
-    display: grid;
+    display: none;
     left: 50%;
     bottom: 0;
     width: 46px;
