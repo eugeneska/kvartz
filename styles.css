@@ -3154,12 +3154,13 @@ body.page-entered .side-menu__link:nth-child(7) {
     position: absolute;
     left: 16px;
     right: 16px;
-    top: 64%;
+    top: auto;
+    bottom: calc(env(safe-area-inset-bottom) + clamp(14px, 3.8vh, 28px));
     z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 18px;
+    gap: clamp(12px, 2.4vh, 18px);
   }
 
   .hero__mobile-heading {
@@ -3175,7 +3176,7 @@ body.page-entered .side-menu__link:nth-child(7) {
 
   .hero__mobile-subtitle {
     display: block;
-    margin: 0 0 20px;
+    margin: 0;
     color: rgba(255, 255, 255, 0.94);
     font-size: clamp(14px, 3.9vw, 17px);
     line-height: 1.36;
@@ -3243,7 +3244,8 @@ body.page-entered .side-menu__link:nth-child(7) {
 
   .hero__mobile-cta {
     position: static;
-    width: min(94vw, 360px);
+    width: 100%;
+    max-width: 360px;
     display: inline-grid;
     grid-template-columns: 1fr auto;
     align-items: stretch;
