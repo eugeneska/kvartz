@@ -193,7 +193,7 @@ input {
 
 .hero__title-subline {
   display: block;
-  margin-top: 8px;
+  margin-top: 0;
   font-size: clamp(16px, 1.35vw, 24px);
   font-weight: 500;
   letter-spacing: 0.08em;
