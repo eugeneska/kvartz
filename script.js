@@ -72,6 +72,7 @@ const projectModalCounter = document.getElementById("projectModalCounter");
 const projectModalPrev = projectModal?.querySelector(".project-modal__nav--prev");
 const projectModalNext = projectModal?.querySelector(".project-modal__nav--next");
 const thanksModal = document.getElementById("thanksModal");
+const userAgreementModal = document.getElementById("userAgreementModal");
 const forms = Array.from(document.querySelectorAll("form"));
 const showroomMapContainer = document.getElementById("showroomsMap");
 const showroomMapButtons = Array.from(document.querySelectorAll(".showroom-map-btn"));
@@ -424,6 +425,154 @@ function closeThanksModal() {
   document.body.style.overflow = "";
 }
 
+function openUserAgreementModal() {
+  if (!userAgreementModal) return;
+  userAgreementModal.classList.add("is-open");
+  userAgreementModal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeUserAgreementModal() {
+  if (!userAgreementModal) return;
+  userAgreementModal.classList.remove("is-open");
+  userAgreementModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+function normalizeRuPhoneDigits(str) {
+  let d = String(str).replace(/\D/g, "");
+  if (d.startsWith("8")) d = "7" + d.slice(1);
+  if (d.length === 10 && d[0] === "9") d = "7" + d;
+  if (d.length > 0 && d[0] !== "7") {
+    d = "7" + d.replace(/^7+/, "");
+  }
+  return d.slice(0, 11);
+}
+
+function formatRuPhoneDisplay(fromValue) {
+  const d = normalizeRuPhoneDigits(fromValue);
+  if (d.length <= 1) return "+7 ";
+  const rest = d.slice(1);
+  let s = "+7 (";
+  s += rest.slice(0, 3);
+  if (rest.length > 3) {
+    s += ") " + rest.slice(3, 6);
+    if (rest.length > 6) {
+      s += "-" + rest.slice(6, 8);
+      if (rest.length > 8) {
+        s += "-" + rest.slice(8, 10);
+      }
+    }
+  }
+  return s;
+}
+
+function isValidRuPhone(value) {
+  const d = normalizeRuPhoneDigits(value);
+  return d.length === 11 && d[0] === "7";
+}
+
+function filterNameInputValue(raw) {
+  return raw.replace(/[^а-яёА-ЯЁa-zA-Z\s]/g, "").replace(/\s+/g, " ");
+}
+
+const NAME_SUBMIT_PATTERN = /^[а-яёА-ЯЁa-zA-Z]+(?: [а-яёА-ЯЁa-zA-Z]+)*$/;
+
+function isValidName(value) {
+  const t = value.trim();
+  return t.length > 0 && NAME_SUBMIT_PATTERN.test(t);
+}
+
+function attachPhoneMask(input) {
+  input.addEventListener("focus", () => {
+    if (normalizeRuPhoneDigits(input.value).length === 0) {
+      input.value = "+7 ";
+    }
+  });
+
+  input.addEventListener("blur", () => {
+    if (normalizeRuPhoneDigits(input.value).length <= 1) {
+      input.value = "";
+    }
+  });
+
+  input.addEventListener("input", () => {
+    const formatted = formatRuPhoneDisplay(input.value);
+    if (formatted !== input.value) {
+      input.value = formatted;
+    }
+    input.setSelectionRange(formatted.length, formatted.length);
+  });
+
+  input.addEventListener("paste", (event) => {
+    event.preventDefault();
+    const text = event.clipboardData?.getData("text") || "";
+    const formatted = formatRuPhoneDisplay(text);
+    input.value = formatted;
+    input.setSelectionRange(formatted.length, formatted.length);
+  });
+}
+
+function attachNameMask(input) {
+  input.addEventListener("input", () => {
+    const next = filterNameInputValue(input.value);
+    if (next !== input.value) {
+      input.value = next;
+    }
+  });
+}
+
+function setupFormInputMasks() {
+  document.querySelectorAll('form input[name="phone"][type="tel"]').forEach((el) => {
+    attachPhoneMask(el);
+  });
+  document.querySelectorAll('form input[name="name"]').forEach((el) => {
+    attachNameMask(el);
+  });
+}
+
+function validateFormFields(form) {
+  const phoneInput = form.querySelector('input[name="phone"]');
+  if (phoneInput) {
+    if (!isValidRuPhone(phoneInput.value)) {
+      setCaptchaError(form, "Введите российский номер: +7 и 10 цифр после кода страны.");
+      phoneInput.focus();
+      return false;
+    }
+  }
+
+  const nameInput = form.querySelector('input[name="name"]');
+  if (nameInput && nameInput.required) {
+    if (!isValidName(nameInput.value)) {
+      setCaptchaError(
+        form,
+        "Имя — только буквы на кириллице или латинице, без цифр и символов.",
+      );
+      nameInput.focus();
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function setupUserAgreementModal() {
+  if (!userAgreementModal) return;
+
+  const backdrop = userAgreementModal.querySelector(".user-agreement-modal__backdrop");
+  const closeBtn = userAgreementModal.querySelector(".user-agreement-modal__close");
+
+  backdrop?.addEventListener("click", closeUserAgreementModal);
+  closeBtn?.addEventListener("click", closeUserAgreementModal);
+
+  document.querySelectorAll(".user-agreement-modal-trigger").forEach((trigger) => {
+    trigger.addEventListener("click", (event) => {
+      event.preventDefault();
+      openUserAgreementModal();
+    });
+  });
+}
+
 function openColorModal(name, imageSrc) {
   colorModalImage.src = imageSrc;
   colorModalImage.alt = name;
@@ -641,6 +790,10 @@ function setupColorsGallery() {
 
     if (event.key === "Escape" && thanksModal?.classList.contains("is-open")) {
       closeThanksModal();
+    }
+
+    if (event.key === "Escape" && userAgreementModal?.classList.contains("is-open")) {
+      closeUserAgreementModal();
     }
 
     if (event.key === "Escape" && certificateModal?.classList.contains("is-open")) {
@@ -1094,6 +1247,10 @@ function validateFormConsent(form) {
 }
 
 function validateFormSubmission(form) {
+  if (!validateFormFields(form)) {
+    return false;
+  }
+
   if (!validateFormConsent(form)) {
     return false;
   }
@@ -1172,6 +1329,20 @@ function getFormMeta(form) {
 async function submitForm(form, recaptchaToken = "") {
   const formMeta = getFormMeta(form);
   const formData = new FormData(form);
+
+  const phoneInput = form.querySelector('input[name="phone"]');
+  if (phoneInput) {
+    const digits = normalizeRuPhoneDigits(phoneInput.value);
+    if (digits.length === 11) {
+      formData.set("phone", `+${digits}`);
+    }
+  }
+
+  const nameInput = form.querySelector('input[name="name"]');
+  if (nameInput) {
+    formData.set("name", nameInput.value.trim().replace(/\s+/g, " "));
+  }
+
   formData.append("form_type", formMeta.type);
   formData.append("form_name", formMeta.name);
   formData.append("page_url", window.location.href);
@@ -1246,6 +1417,8 @@ setupHeroSlideActionLink();
 setupMobileHeroBurger();
 initShowroomsMapWhenVisible();
 setupThanksModal();
+setupUserAgreementModal();
+setupFormInputMasks();
 setupFormSubmitHandlers();
 initRecaptcha();
 scheduleHeroAutoplay();

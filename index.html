@@ -19,7 +19,7 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=20260318-1" />
+    <link rel="stylesheet" href="styles.css?v=20260325-1" />
   </head>
   <body>
     <aside class="side-menu" aria-label="Навигация по лендингу">
@@ -241,8 +241,10 @@
                 id="expressPhone"
                 name="phone"
                 type="tel"
+                inputmode="tel"
                 placeholder="+7 (___) ___-__-__"
                 autocomplete="tel"
+                required
               />
             </label>
 
@@ -250,9 +252,11 @@
 
             <label class="express-calc-form__policy">
               <input type="checkbox" required />
-              <span>
-                Согласен на обработку персональных данных, принимаю условия Пользовательского
-                соглашения
+              <span class="express-calc-form__policy-text">
+                Согласен на обработку персональных данных, принимаю условия
+                <button type="button" class="user-agreement-modal-trigger">
+                  Пользовательского соглашения
+                </button>
               </span>
             </label>
           </form>
@@ -317,7 +321,14 @@
               <form class="colors-request-form" id="colorsRequestForm" action="#" method="post">
                 <label class="request-field request-field--full">
                   <span class="request-field__required" aria-hidden="true">*</span>
-                  <input type="text" name="name" placeholder="Имя" autocomplete="name" required />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Имя"
+                    autocomplete="name"
+                    required
+                    maxlength="100"
+                  />
                 </label>
                 <label class="request-field">
                   <span class="request-field__required" aria-hidden="true">*</span>
@@ -331,15 +342,24 @@
                 </label>
                 <label class="request-field">
                   <span class="request-field__required" aria-hidden="true">*</span>
-                  <input type="tel" name="phone" placeholder="Телефон" autocomplete="tel" required />
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="+7 (___) ___-__-__"
+                    autocomplete="tel"
+                    inputmode="tel"
+                    required
+                  />
                 </label>
                 <button type="submit">Отправить заявку</button>
 
                 <label class="express-calc-form__policy">
                   <input type="checkbox" required />
-                  <span>
-                    Согласен на обработку персональных данных, принимаю условия Пользовательского
-                    соглашения
+                  <span class="express-calc-form__policy-text">
+                    Согласен на обработку персональных данных, принимаю условия
+                    <button type="button" class="user-agreement-modal-trigger">
+                      Пользовательского соглашения
+                    </button>
                   </span>
                 </label>
               </form>
@@ -361,7 +381,14 @@
             <form class="promo-request-form" id="promoRequestForm" action="#" method="post">
               <label class="request-field">
                 <span class="request-field__required" aria-hidden="true">*</span>
-                <input type="text" name="name" placeholder="Имя" autocomplete="name" required />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Имя"
+                  autocomplete="name"
+                  required
+                  maxlength="100"
+                />
               </label>
               <label class="request-field express-calc-form__field">
                 <span class="request-field__required" aria-hidden="true">*</span>
@@ -371,6 +398,7 @@
                   name="phone"
                   placeholder="+7 (___) ___-__-__"
                   autocomplete="tel"
+                  inputmode="tel"
                   required
                 />
               </label>
@@ -378,9 +406,11 @@
 
               <label class="express-calc-form__policy">
                 <input type="checkbox" required />
-                <span>
-                  Согласен на обработку персональных данных, принимаю условия Пользовательского
-                  соглашения
+                <span class="express-calc-form__policy-text">
+                  Согласен на обработку персональных данных, принимаю условия
+                  <button type="button" class="user-agreement-modal-trigger">
+                    Пользовательского соглашения
+                  </button>
                 </span>
               </label>
             </form>
@@ -512,6 +542,7 @@
                 id="selectionRequestPhone"
                 name="phone"
                 type="tel"
+                inputmode="tel"
                 placeholder="+7 (___) ___-__-__"
                 autocomplete="tel"
                 required
@@ -521,9 +552,11 @@
 
             <label class="express-calc-form__policy">
               <input type="checkbox" required />
-              <span>
-                Согласен на обработку персональных данных, принимаю условия Пользовательского
-                соглашения
+              <span class="express-calc-form__policy-text">
+                Согласен на обработку персональных данных, принимаю условия
+                <button type="button" class="user-agreement-modal-trigger">
+                  Пользовательского соглашения
+                </button>
               </span>
             </label>
           </form>
@@ -664,15 +697,24 @@
               <h3>Напишите нам</h3>
               <form class="contacts-form" action="#" method="post">
                 <label class="request-field" for="contactsName">
-                  <input id="contactsName" name="name" type="text" placeholder="Имя" autocomplete="name" required />
+                  <input
+                    id="contactsName"
+                    name="name"
+                    type="text"
+                    placeholder="Имя"
+                    autocomplete="name"
+                    required
+                    maxlength="100"
+                  />
                 </label>
                 <label class="request-field" for="contactsPhone">
                   <input
                     id="contactsPhone"
                     name="phone"
                     type="tel"
-                    placeholder="Телефон"
+                    placeholder="+7 (___) ___-__-__"
                     autocomplete="tel"
+                    inputmode="tel"
                     required
                   />
                 </label>
@@ -689,9 +731,11 @@
 
                 <label class="express-calc-form__policy">
                   <input type="checkbox" required />
-                  <span>
-                    Согласен на обработку персональных данных, принимаю условия Пользовательского
-                    соглашения
+                  <span class="express-calc-form__policy-text">
+                    Согласен на обработку персональных данных, принимаю условия
+                    <button type="button" class="user-agreement-modal-trigger">
+                      Пользовательского соглашения
+                    </button>
                   </span>
                 </label>
               </form>
@@ -917,7 +961,23 @@
       </div>
     </div>
 
+    <div class="user-agreement-modal" id="userAgreementModal" aria-hidden="true">
+      <button class="user-agreement-modal__backdrop" type="button" aria-label="Закрыть окно"></button>
+      <div
+        class="user-agreement-modal__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="userAgreementModalTitle"
+      >
+        <button class="user-agreement-modal__close" type="button" aria-label="Закрыть">×</button>
+        <h3 class="user-agreement-modal__title" id="userAgreementModalTitle">Пользовательское соглашение</h3>
+        <div class="user-agreement-modal__body" id="userAgreementModalBody">
+          <p>Текст соглашения будет добавлен позже.</p>
+        </div>
+      </div>
+    </div>
+
     <script src="app-config.js" defer></script>
-    <script src="script.js?v=20260318-1" defer></script>
+    <script src="script.js?v=20260325-1" defer></script>
   </body>
 </html>
